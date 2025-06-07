@@ -1,0 +1,1893 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Boletim de Notícias</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Courier+Prime:400,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Merriweather:400,700&display=swap" rel="stylesheet">
+  <style>
+    /* Global Styles */
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+  background-color: #000; /* AJUSTE ANTERIOR E REFORÇADO: Preto absoluto */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #000; /* AJUSTE: Mesmo preto absoluto do HTML para garantir uma única tonalidade */
+  font-family: 'Open Sans', sans-serif;
+  color: #fff;
+  transform: scale(0.90);
+  transform-origin: top center;
+  box-sizing: border-box;
+}
+
+.body-modal-open {
+  overflow: hidden;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+h1, h2, h3, .accordion-header {
+  font-family: 'Merriweather', serif;
+}
+
+p, li {
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 30px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+header {
+  text-align: center;
+  padding: 20px 0;
+  margin-bottom: 20px;
+  width: 100%;
+}
+header h1 {
+  margin: 0;
+  font-size: 3.5em;
+  letter-spacing: 2px;
+  color: #ff9800;
+}
+header .edition {
+  margin-top: 10px;
+  font-size: 1.5em;
+  color: #fff;
+  font-style: italic;
+}
+
+.menu {
+  background: rgba(68, 68, 68, 0.9);
+  padding: 15px 20px;
+  margin-bottom: 40px;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 800px;
+}
+.menu .hamburger-container {
+  display: none;
+}
+.menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.menu ul li {
+  margin: 8px 0;
+  width: 90%;
+  max-width: 350px;
+  text-align: center;
+}
+.menu ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  transition: color 0.3s, background-color 0.3s;
+  cursor: pointer;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1em;
+  display: block;
+  padding: 10px 5px;
+  border-radius: 4px;
+}
+.menu ul li a:hover,
+.menu ul li a:focus {
+  color: #222;
+  background-color: #ff9800;
+  outline: none;
+}
+
+.home-highlights-section {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    padding: 25px;
+    background: rgba(34, 34, 34, 0.7);
+    border: 1px solid #555;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.home-highlights-section h2 {
+    color: #ff9800;
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 2.2em;
+    border-bottom: 1px solid #555;
+    padding-bottom: 10px;
+}
+.highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+.highlight-item {
+    background: #3a3a3a;
+    padding: 20px;
+    border-radius: 6px;
+    border: 1px solid #666;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.highlight-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+.highlight-item h3 {
+    font-size: 1.4em;
+    color: #ff9800;
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-family: 'Merriweather', serif;
+    text-align: center;
+}
+.highlight-item .highlight-thumbnail {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    border: 1px solid #505050;
+}
+.highlight-item p.highlight-article-title {
+    font-size: 1em;
+    margin-bottom: 15px;
+    color: #eee;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+}
+.highlight-item a.read-more-link {
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+    margin-top: auto;
+    text-decoration: none;
+    color: #222;
+    background-color: #ff9800;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+}
+.highlight-item a.read-more-link:hover,
+.highlight-item a.read-more-link:focus {
+    background-color: #e68a00;
+    color: #fff;
+    outline: none;
+}
+
+.news-section {
+  display: none;
+}
+
+.modal-content h2.section-title-in-modal {
+    font-size: 2.2em;
+    margin-top: 0;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #555;
+    padding-bottom: 15px;
+    text-align: center;
+    color: #ff9800;
+}
+
+article.news-article {
+  padding: 20px;
+  margin-bottom: 0;
+  background: #f0f0f0;
+  border-radius: 0;
+  color: #333;
+}
+.accordion-content article.news-article:not(:last-child) {
+    border-bottom: 1px dashed #ccc;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+}
+
+article.news-article h3 {
+  font-size: 1.8em;
+  margin-top: 0;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  text-align: center;
+  color: #111;
+}
+article.news-article p {
+  margin: 15px 0;
+  text-align: justify;
+  font-size: 1em;
+  color: #333;
+}
+article.news-article ul {
+  margin: 15px 0 15px 20px;
+  padding: 0;
+  list-style-type: disc;
+}
+article.news-article li {
+  margin: 10px 0;
+  color: #333;
+}
+.article-image {
+  margin-bottom: 20px;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+.article-image img {
+  width: 100%;
+  height: auto;
+  max-height: 350px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+.article-image img:hover {
+  transform: scale(1.05);
+}
+.article-image img:focus {
+    outline: 2px solid #ff9800;
+    outline-offset: 2px;
+}
+
+.video-link-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ff9800;
+    color: #222;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+    border: 1px solid #e68a00;
+}
+.video-link-button:hover,
+.video-link-button:focus {
+    background-color: #e68a00;
+    color: #fff;
+    outline: none;
+}
+
+/* Modal Styles */
+.modal {
+  visibility: hidden;
+  opacity: 0;
+  position: fixed;
+  z-index: 10000;
+  top: 0;
+  left: -5.5555555556vw;
+  width: 111.1111111111vw;
+  height: 111.1111111111vh;
+  background-color: rgba(0,0,0,1);
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.modal.modal-open {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.25s ease;
+}
+
+.modal-content {
+  background-color: #e9e9e9;
+  padding: 25px;
+  padding-top: 60px;
+  border: 1px solid #aaa;
+  width: 100%;
+  max-width: 950px;
+  height: 100%;
+  border-radius: 10px;
+  position: relative;
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.2;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  overflow-y: auto;
+  box-sizing: border-box;
+  transform: scale(0.95);
+  transition: transform 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal.modal-open .modal-content {
+    transform: scale(1);
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 10px;
+}
+.modal-content::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+.modal-content::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+  border: 2px solid #e9e9e9;
+}
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: #555;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 5px;
+  z-index: 10;
+}
+.modal-close:hover,
+.modal-close:focus {
+  color: #000;
+  text-decoration: none;
+  outline: 2px solid #ff9800;
+  outline-offset: 2px;
+}
+
+/* Accordion Styles */
+.accordion-header {
+  background-color: #d0d0d0;
+  color: #222;
+  cursor: pointer;
+  padding: 15px 45px 15px 15px;
+  border: 1px solid #bbb;
+  margin: 10px 0 0 0;
+  font-size: 1.3em;
+  text-align: center;
+  border-radius: 5px 5px 0 0;
+  transition: background-color 0.3s;
+  width: 100%;
+  display: block;
+  font-family: 'Merriweather', serif;
+  position: relative;
+  flex-shrink: 0;
+}
+.accordion-header:hover {
+    background-color: #c0c0c0;
+}
+.accordion-header.active {
+    background-color: #b8b8b8;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.accordion-header:focus {
+    outline: 2px solid #ff9800;
+    outline-offset: 2px;
+    background-color: #c8c8c8;
+}
+
+.accordion-header::after {
+    content: '\002B';
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #444;
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.2s ease-in-out, content 0s linear 0s;
+}
+.accordion-header.active::after {
+    content: '\2212';
+}
+
+.accordion-content {
+  background-color: #f7f7f7;
+  color: #333;
+  padding: 0;
+  display: none;
+  border: 1px solid #bbb;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+#modal-body > .accordion-container {
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.tts-pause {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Image Modal Styles */
+.image-modal {
+    visibility: hidden;
+    opacity: 0;
+    position: fixed;
+    z-index: 10100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 30px;
+    box-sizing: border-box;
+    transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+}
+.image-modal.modal-open {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.25s ease;
+}
+.image-modal-content {
+    margin: 0;
+    display: block;
+    max-width: 90%;
+    max-height: calc(100vh - 60px);
+    object-fit: contain;
+    animation-name: zoomInModalImage;
+    animation-duration: 0.3s;
+    border-radius: 4px;
+}
+@keyframes zoomInModalImage {
+    from {transform: scale(0.7); opacity: 0.5;}
+    to {transform: scale(1); opacity: 1;}
+}
+.image-modal-close {
+    background: transparent;
+    border: none;
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 5px;
+}
+.image-modal-close:hover,
+.image-modal-close:focus {
+    color: #bbb;
+    text-decoration: none;
+    outline: 2px solid #ff9800;
+    outline-offset: 2px;
+}
+
+/* Media Queries */
+@media (min-width: 601px) {
+    .menu ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .menu ul li {
+        margin: 5px 8px;
+        width: auto;
+        max-width: none;
+    }
+    .menu ul li a {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+    .home-highlights-section h2 {
+        font-size: 2em;
+    }
+    .modal-content h2.section-title-in-modal {
+        font-size: 2em;
+    }
+    article.news-article h3 {
+        font-size: 1.7em;
+    }
+    .accordion-header {
+        font-size: 1.2em;
+    }
+}
+
+@media (min-width: 992px) {
+    .menu {
+          max-width: 800px;
+    }
+    .menu ul {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px 12px;
+    }
+    .menu ul li {
+        margin: 0;
+        width: 100%;
+    }
+    .menu ul li a {
+        font-size: 0.95em;
+        padding: 10px 5px;
+    }
+    header h1 {
+        font-size: 3.5em;
+    }
+    header .edition {
+        font-size: 1.5em;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 20px;
+    }
+    header h1 {
+        font-size: 2.8em;
+    }
+    header .edition {
+        font-size: 1.3em;
+    }
+    .highlights-grid {
+        gap: 20px;
+    }
+    .highlight-item .highlight-thumbnail {
+        height: 130px;
+    }
+    .highlight-item h3 {
+        font-size: 1.3em;
+    }
+    .highlight-item p.highlight-article-title {
+        font-size: 0.95em;
+    }
+    .modal {
+        padding: 15px;
+        left: -5.5555555556vw;
+        width: 111.1111111111vw;
+        height: 111.1111111111vh;
+    }
+    .modal-content {
+        padding: 20px;
+        padding-top: 55px;
+    }
+    .modal-content h2.section-title-in-modal {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+    }
+    article.news-article h3 {
+        font-size: 1.6em;
+    }
+    .accordion-header {
+        font-size: 1.2em;
+        padding: 14px 40px 14px 14px;
+    }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 20px 15px;
+  }
+  header h1 {
+    font-size: 2.3em;
+  }
+  header .edition {
+    font-size: 1.2em;
+  }
+  .home-highlights-section {
+    padding: 20px;
+  }
+  .home-highlights-section h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+  }
+  .highlights-grid {
+    gap: 15px;
+  }
+  .highlight-item {
+    padding: 15px;
+  }
+  .highlight-item .highlight-thumbnail {
+      height: 120px;
+  }
+  .modal {
+      padding: 10px;
+      left: -5.5555555556vw;
+      width: 111.1111111111vw;
+      height: 111.1111111111vh;
+  }
+  .modal-content {
+    padding: 15px;
+    padding-top: 50px;
+  }
+  .modal-content h2.section-title-in-modal {
+    font-size: 1.6em;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+  }
+  article.news-article h3 {
+    font-size: 1.4em;
+  }
+  article.news-article p, article.news-article li {
+    font-size: 1em; /* Fonte aumentada na iteração anterior */
+  }
+  .accordion-header {
+    font-size: 1.25em; /* Fonte aumentada na iteração anterior */
+    padding: 12px 35px 12px 12px;
+  }
+  .accordion-header::after {
+    font-size: 1.1em;
+    right: 12px;
+  }
+  .image-modal-content {
+    max-width: 95%;
+  }
+  .image-modal-close {
+    top: 10px;
+    right: 25px;
+    font-size: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 2em;
+  }
+  header .edition {
+    font-size: 1.1em;
+  }
+  .menu ul li a {
+    font-size: 0.95em;
+  }
+  .home-highlights-section h2 {
+    font-size: 1.6em;
+  }
+  .highlight-item .highlight-thumbnail {
+      height: 110px;
+  }
+    .highlight-item h3 {
+    font-size: 1.2em;
+  }
+  .highlight-item p.highlight-article-title {
+    font-size: 0.9em;
+  }
+  .highlight-item a.read-more-link {
+    padding: 8px 12px;
+    font-size: 0.9em;
+  }
+  .modal {
+      padding: 5px;
+      left: -5.5555555556vw;
+      width: 111.1111111111vw;
+      height: 111.1111111111vh;
+  }
+  .modal-content {
+    padding: 15px 10px;
+    padding-top: 45px;
+    font-size: 0.9rem;
+  }
+  .modal-content h2.section-title-in-modal {
+    font-size: 1.4em;
+    margin-bottom: 15px;
+  }
+  article.news-article h3 {
+    font-size: 1.3em;
+  }
+  article.news-article p, article.news-article li {
+    font-size: 1.10em; /* Fonte aumentada na iteração anterior */
+  }
+  .accordion-header {
+    font-size: 1.15em; /* Fonte aumentada na iteração anterior */
+    padding: 10px 30px 10px 10px;
+  }
+  .accordion-header::after {
+    font-size: 1em;
+    right: 10px;
+  }
+}
+  </style>  
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Boletim Semanal de Notícias</h1>
+      <p class="edition">Atualizado em: 07/06/2025</p> 
+    </header>
+    
+    <nav class="menu">
+      <ul>
+        <li><a data-section="#inteligencia-artificial" href="#">INTELIGÊNCIA ARTIFICIAL</a></li>
+        <li><a data-section="#inovacao-tecnologica" href="#">INOVAÇÃO TECNOLÓGICA</a></li>
+        <li><a data-section="#saude-tecnologia" href="#">SAÚDE E TECNOLOGIA</a></li>
+        <li><a data-section="#deu-ruim" href="#">BUGOU!</a></li>
+        <li><a data-section="#noticias-variadas" href="#">NOTÍCIAS VARIADAS</a></li>
+        <li><a data-section="#curiosidades" href="#">CURIOSIDADES</a></li>
+      </ul>
+    </nav>
+
+    <section id="home-highlights" class="home-highlights-section">
+        <h2>Destaques da Semana</h2>
+        <div class="highlights-grid">
+          </div>
+    </section>
+
+  </div> <section id="inteligencia-artificial" class="news-section">
+    <h2>INTELIGÊNCIA ARTIFICIAL</h2>
+        <article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/gemini_2_5_pro_preview-1024x576.png" alt="Google lança atualização para Gemini 2.5 Pro com melhorias significativas">
+  </div>
+  <h3>Google lança atualização para Gemini 2.5 Pro com melhorias significativas</h3>
+  <p>O Google anunciou uma atualização robusta para o Gemini 2.5 Pro, corrigindo falhas da versão anterior, conhecida como I/O Edition (05-06). A nova versão se destaca pela melhoria na geração de código, alcançando <strong>82,2% no benchmark Aider Polyglot</strong> — resultado superior às principais concorrentes como OpenAI, Anthropic e DeepSeek.</p>
+
+  <p>Apesar da liberação rápida do Gemini 2.5 Flash, a versão Pro permanece restrita, o que gerou críticas. Segundo Logan Kilpatrick, do Google, o feedback foi levado a sério e o update resolve deficiências da versão 03-25, entregando uma <strong>IA mais criativa e com respostas melhor formatadas</strong>.</p>
+
+  <p>Dentre as novidades, a versão 06-05 introduz <strong>“orçamentos de pensamento” configuráveis</strong> por desenvolvedores e tem potencial para se tornar uma versão estável de longo prazo.</p>
+
+  <p>Além disso, o desempenho do Gemini 2.5 Pro em testes externos, como LMArena e WebDevArena, confirmou sua liderança entre os modelos de linguagem. Destaque para a <strong>melhora na formatação de respostas</strong> e na <strong>assertividade diante de perguntas complexas</strong> — como a questão hipotética sobre a cor magenta, que foi respondida com segurança, ao contrário de modelos rivais no passado.</p>
+
+  <p>O Gemini 2.5 Pro já está disponível no <strong>Vertex AI</strong>, <strong>AI Studio</strong> e como <strong>prévia no app do Gemini</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/02/modo-adulto-chatgpt-2-1024x576.png" alt="ChatGPT ultrapassa 3 milhões de clientes corporativos e se torna assistente de produtividade nas empresas">
+  </div>
+  <h3>ChatGPT ultrapassa 3 milhões de clientes corporativos e se torna assistente de produtividade nas empresas</h3>
+  <p>A OpenAI alcançou um marco expressivo: mais de <strong>3 milhões de usuários corporativos pagos</strong> utilizam o ChatGPT, que agora assume novas funções como um verdadeiro “secretário inteligente”. O destaque da vez é o <strong>modo de gravação</strong>, que permite à IA fazer anotações automáticas em reuniões e registrar ideias ditadas em voz alta.</p>
+
+  <p>Além disso, o ChatGPT passou a se integrar com plataformas de armazenamento em nuvem como <strong>Google Drive, Dropbox, OneDrive, SharePoint</strong> e <strong>Box</strong>. Com isso, é possível consultar diretamente dados contidos em documentos e planilhas hospedados nesses serviços. A IA acessa os arquivos respeitando as permissões de cada usuário e entrega respostas estruturadas com base no conteúdo encontrado.</p>
+
+  <p>Essas funcionalidades estão disponíveis exclusivamente para clientes corporativos através do plano <strong>ChatGPT Team</strong>, que custa entre <strong>US$ 25 e US$ 30 por mês</strong> por usuário, dependendo do tipo de assinatura.</p>
+
+  <p>Desde o lançamento do <strong>ChatGPT Enterprise</strong> em 2023, a OpenAI tem investido fortemente no mercado empresarial. A estratégia visa consolidar o ChatGPT como um <strong>recurso essencial de produtividade</strong> — tanto para análise de dados quanto para apoio em tarefas rotineiras.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/Captura-de-tela-2025-06-06-131355-1024x421.png" alt="Startup francesa lança agentes de IA de baixo custo e desafia gigantes do setor">
+  </div>
+  <h3>Startup francesa lança agentes de IA de baixo custo e desafia gigantes do setor</h3>
+  <p>A H Company, startup francesa de inteligência artificial, chamou atenção ao anunciar <strong>três agentes de IA</strong> com foco em automação de tarefas e <strong>custo reduzido</strong>. O destaque é o modelo <strong>Surfer H</strong>, que realiza tarefas por apenas <strong>0,11 euros cada</strong> (cerca de R$ 0,70), prometendo ser até <strong>5,5 vezes mais econômico</strong> que soluções de empresas como OpenAI e Google.</p>
+
+  <p><strong>Os agentes apresentados são:</strong></p>
+  <ul>
+    <li><strong>Runner H:</strong> foca na automação de fluxos de trabalho, voltado ao uso pessoal.</li>
+    <li><strong>Surfer H:</strong> permite navegação na web e execução de tarefas online, com taxa de sucesso de 92,2%.</li>
+    <li><strong>Tester H:</strong> direcionado ao uso empresarial, especialmente para testes de software e elaboração de respostas a e-mails.</li>
+  </ul>
+
+  <p>Segundo o CEO <strong>Charles Kantor</strong>, os agentes vão além da simples execução de comandos: <strong>eles planejam e resolvem problemas de forma autônoma</strong>. Os modelos são treinados com dados sintéticos, atendendo às exigências regulatórias da União Europeia sobre proteção de dados.</p>
+
+  <p>Apesar de desafios internos — como a saída e posterior retorno de cofundadores — a H Company já conta com apoio de grandes investidores, incluindo <strong>Amazon, Samsung</strong> e o <strong>ex-CEO do Google, Eric Schmidt</strong>. O próximo passo, segundo Kantor, será o <strong>desenvolvimento de uma IA física</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/01/shutterstock_2497989313-1024x682.jpg" alt="Meta adota IA para transformar processos de recrutamento">
+  </div>
+  <h3>Meta adota IA para transformar processos de recrutamento</h3>
+  <p>A Meta está ampliando o uso de <strong>inteligência artificial</strong> em suas operações, desta vez voltando-se ao setor de <strong>recursos humanos</strong>. Um novo sistema interno deve automatizar parte significativa do processo de contratação, tornando-o <strong>mais eficiente e preciso</strong>.</p>
+
+  <p>Entre as funcionalidades previstas estão a <strong>avaliação de habilidades técnicas</strong>, <strong>sugestão de perguntas para entrevistas</strong>, <strong>transcrição de conversas</strong> e <strong>análise da performance de recrutadores</strong> — incluindo a <strong>medição do nível de inclusão</strong> nas entrevistas. A ferramenta também ajudará a <strong>organizar agendas</strong>, levando em conta as preferências dos envolvidos e as competências exigidas para cada vaga.</p>
+
+  <p>A Meta afirma que a IA atuará como <strong>suporte ao recrutamento</strong>, sem substituir a interação humana nas entrevistas. A tendência segue um movimento crescente em grandes empresas, como a <strong>Amazon</strong>, que também utiliza IA para triagem de candidatos.</p>
+
+  <p>De acordo com dados do <strong>LinkedIn</strong>, o uso de IA no recrutamento subiu de <strong>27% em 2023 para 37% em 2024</strong>, consolidando a tecnologia como <strong>aliada estratégica na gestão de talentos</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/chatbots-ia-1920x1080.jpg" alt="Claude supera ChatGPT e Gemini em desafio com análise de textos complexos">
+  </div>
+  <h3>Claude supera ChatGPT e Gemini em desafio com análise de textos complexos</h3>
+  <p>Um teste realizado pelo <strong>Washington Post</strong> avaliou cinco dos principais chatbots do mercado — <strong>Claude, ChatGPT, Copilot, Gemini</strong> e <strong>Meta AI</strong> — em tarefas que exigem <strong>interpretação de textos complexos</strong>. O objetivo era verificar o nível de compreensão e a confiabilidade dessas ferramentas.</p>
+
+  <p>Os chatbots foram desafiados a ler e interpretar quatro tipos de conteúdo: <strong>um romance literário, estudos médicos, contratos jurídicos</strong> e <strong>discursos políticos</strong>. Um painel de especialistas, incluindo autores e pesquisadores, foi responsável por julgar as respostas.</p>
+
+  <p><strong>Principais conclusões:</strong></p>
+  <ul>
+    <li><strong>Claude (Anthropic):</strong> grande vencedor geral, sendo o único que não cometeu “alucinações” (erros factuais) durante os testes. Teve desempenho superior especialmente em direito e medicina.</li>
+    <li><strong>ChatGPT (OpenAI):</strong> ficou em segundo lugar geral, destacando-se na análise política e na compreensão literária, mas cometeu falhas em direito.</li>
+    <li><strong>Gemini (Google), Copilot (Microsoft)</strong> e <strong>Meta AI</strong>: pontuações inferiores, com inconsistência e omissões importantes, especialmente em literatura e direito.</li>
+  </ul>
+
+  <p><strong>Pontuação final geral:</strong></p>
+  <ul>
+    <li><strong>Claude:</strong> 69,9</li>
+    <li><strong>ChatGPT:</strong> 68,4</li>
+    <li><strong>Gemini:</strong> 49,7</li>
+    <li><strong>Copilot:</strong> 49,0</li>
+    <li><strong>Meta AI:</strong> 45,0</li>
+  </ul>
+
+  <p>Embora os resultados mostrem avanços, o relatório conclui que <strong>os chatbots ainda não substituem especialistas</strong>, como advogados ou médicos, sendo <strong>ferramentas de apoio que devem ser usadas com cautela</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/lais-1920x1080.jpg" alt="Startup brasileira transforma mercado imobiliário com assistente de IA">
+  </div>
+  <h3>Startup brasileira transforma mercado imobiliário com assistente de IA</h3>
+  <p>A startup paulista <strong>Lastro</strong> está modernizando o setor imobiliário com o uso de <strong>inteligência artificial</strong>. Sua assistente virtual, chamada <strong>Lais</strong>, já interage com mais de <strong>250 mil pessoas por mês via WhatsApp</strong>, auxiliando em busca, atendimento e gestão de imóveis em parceria com mais de <strong>700 imobiliárias</strong> pelo Brasil.</p>
+
+  <p>Criada em 2021, a Lastro pivotou seu modelo de negócio em 2022 ao integrar a IA da OpenAI, criando uma solução voltada à <strong>comunicação e organização de dados</strong> no mercado imobiliário. A <strong>Lais</strong> é capaz de compreender áudios, responder dúvidas, sugerir imóveis e filtrar informações relevantes para corretores.</p>
+
+  <p>Além de intermediar vendas e locações, a ferramenta também realiza tarefas como <strong>checagem de disponibilidade de imóveis</strong>, <strong>captação de novos ativos</strong> e <strong>atendimento a inquilinos</strong>. Com isso, as imobiliárias viram um <strong>aumento de até 60% na conversão de visitas em negócios</strong>.</p>
+
+  <p>A plataforma ainda oferece <strong>inteligência de mercado</strong>, identificando bairros em alta e tipos de imóveis mais procurados. Os próximos passos incluem <strong>ampliar o suporte da Lais até o fechamento dos contratos</strong>, ajudando em propostas, seguros e financiamentos.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/Bing-Video-Generator-01-1024x576.jpg" alt="Microsoft libera criação de vídeos com IA gratuitamente no app do Bing">
+  </div>
+  <h3>Microsoft libera criação de vídeos com IA gratuitamente no app do Bing</h3>
+  <p>A Microsoft lançou o <strong>Bing Video Creator</strong>, uma ferramenta gratuita integrada ao aplicativo do Bing (Android e iPhone), que permite a <strong>criação de vídeos curtos por meio de inteligência artificial</strong>. A novidade utiliza o <strong>modelo Sora, da OpenAI</strong>, normalmente disponível apenas para assinantes do ChatGPT Plus.</p>
+
+  <p>Agora, qualquer usuário pode gerar <strong>clipes de até cinco segundos</strong>, em formato vertical (ideal para redes sociais como <strong>TikTok</strong> e <strong>Instagram</strong>), apenas digitando uma descrição textual. A geração pode ser feita em <strong>velocidade padrão</strong> (gratuita e ilimitada) ou <strong>rápida</strong> (limitada a 10 usos gratuitos, com a possibilidade de continuar usando por meio do <strong>Microsoft Rewards</strong>).</p>
+
+  <p>Os vídeos podem ser <strong>salvos por até 90 dias</strong> no app e <strong>compartilhados em outras plataformas</strong>. Em breve, a ferramenta também estará disponível no <strong>Copilot para Windows</strong> e na <strong>versão web</strong>.</p>
+
+  <p>Esse lançamento marca uma das <strong>primeiras vezes que uma IA avançada para vídeos é oferecida sem custo</strong>, ampliando o acesso a recursos antes restritos a assinaturas premium.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/01/deepseek-2-e1738346945967-1024x577.jpg" alt="DeepSeek é suspeita de treinar IA com tecnologia do Google">
+  </div>
+  <h3>DeepSeek é suspeita de treinar IA com tecnologia do Google</h3>
+  <p>A startup chinesa <strong>DeepSeek</strong> lançou recentemente o modelo de IA <strong>R1-0528</strong>, voltado para <strong>raciocínio complexo</strong> e com menor taxa de erros. No entanto, especialistas levantam suspeitas de que a tecnologia tenha sido treinada com base em dados do <strong>Gemini</strong>, da Google.</p>
+
+  <p>Segundo desenvolvedores e analistas, o DeepSeek exibe <strong>padrões linguísticos e funcionais muito semelhantes ao Gemini 2.5 Pro</strong>. A prática suspeita incluiria <strong>destilação de modelos</strong>, técnica que extrai conhecimento de IAs mais robustas para treinar modelos menores. Casos semelhantes já foram registrados: versões anteriores da IA chegaram a se identificar como <strong>ChatGPT</strong>, da OpenAI.</p>
+
+  <p>A DeepSeek também é investigada por <strong>possíveis transferências ilegais de dados</strong> por meio de contas ligadas ao modelo, segundo <strong>Microsoft</strong> e <strong>OpenAI</strong>. Nenhuma das empresas envolvidas comentou oficialmente o caso.</p>
+
+  <p>Apesar das controvérsias, o modelo da DeepSeek chama atenção pelo <strong>baixo custo de desenvolvimento</strong> — cerca de <strong>US$ 6 milhões</strong>, contra mais de <strong>US$ 60 milhões</strong> de soluções rivais. A startup utiliza técnicas como <strong>aprendizado por reforço</strong> e <strong>ativação parcial de parâmetros</strong>, otimizando recursos e ampliando a eficiência.</p>
+
+  <p>Com um modelo parcialmente aberto e <strong>acesso liberado a pesquisadores</strong>, a DeepSeek busca se consolidar como <strong>concorrente de peso no mercado global de IA</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/04/china-1-1-1024x576.jpg" alt="China desenvolve torpedos com IA e supera defesas tradicionais">
+  </div>
+  <h3>China desenvolve torpedos com IA e supera defesas tradicionais</h3>
+  <p>A China revelou um novo sistema de <strong>torpedos equipados com inteligência artificial</strong>, capaz de <strong>identificar e atacar alvos subaquáticos com alta precisão</strong>. A tecnologia, que deverá ser incorporada aos submarinos chineses, apresenta <strong>taxa média de acerto de 92,2%</strong>, mesmo diante de táticas evasivas como o uso de iscas ou camuflagem de sinais.</p>
+
+  <p>Segundo as autoridades chinesas, o sistema consegue <strong>distinguir alvos reais com mais eficácia</strong> do que as atuais contramedidas utilizadas por forças navais. Isso representa um <strong>avanço estratégico na corrida global por armamentos inteligentes</strong> — setor em que países como <strong>Estados Unidos</strong> e <strong>Rússia</strong> também investem pesadamente.</p>
+
+  <p>O sistema de IA <strong>avalia prioridades entre os alvos</strong> e pode operar em <strong>alta velocidade com detecção de longo alcance</strong>, reduzindo falhas de missão e desperdício de armamentos. A data de implementação nos submarinos, no entanto, não foi divulgada.</p>
+</article>
+  </section>
+
+  <section id="inovacao-tecnologica" class="news-section">
+    <h2>INOVAÇÃO TECNOLÓGICA</h2>
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/ia_darwin-1920x1080.png" alt="IA japonesa usa princípios de Darwin para evoluir por conta própria">
+  </div>
+  <h3>IA japonesa usa princípios de Darwin para evoluir por conta própria</h3>
+  <p>A startup japonesa <strong>Sakana AI</strong> apresentou o <strong>Darwin Girdle Machine (DGM)</strong>, um sistema de inteligência artificial que <strong>simula o processo de seleção natural</strong> para melhorar seu próprio código. A proposta é revolucionária: a IA <strong>gera e testa versões modificadas de si mesma</strong>, mantendo apenas aquelas que demonstram desempenho superior.</p>
+
+  <p>Usando o modelo <strong>Claude 3.5 Sonnet</strong>, o DGM realiza <strong>mutações em seu código</strong> e valida os resultados por meio de benchmarks como <strong>Swebench</strong> e <strong>Aider Polyglot</strong>. Após 80 ciclos, a IA <strong>dobrou seu desempenho em alguns testes</strong> — e isso sem modificar seu modelo-base, apenas ajustando ferramentas e comandos.</p>
+
+  <p>A abordagem rompe com a tradição das <strong>Gödel Machines</strong>, que exigem provas formais antes de qualquer autossugestão. No DGM, a <strong>evolução é empírica e automatizada</strong>, embora monitorada em ambiente isolado para evitar efeitos colaterais não intencionais.</p>
+
+  <p>Especialistas, no entanto, alertam para riscos como o <strong>“reward hacking”</strong>, quando a IA manipula métricas para aparentar sucesso. Apesar disso, o sistema marca um <strong>avanço importante rumo à criação de inteligência artificial autônoma e autoaperfeiçoável</strong>, reacendendo o debate sobre <strong>supervisão e governança</strong> nesse campo emergente.</p>
+</article>
+
+
+        <article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/image-30-1024x648.png" alt="Google lança app experimental que roda IA sem internet">
+  </div>
+  <h3>Google lança app experimental que roda IA sem internet</h3>
+  <p>O Google anunciou o <strong>AI Edge Gallery</strong>, um novo aplicativo experimental que permite <strong>rodar modelos de inteligência artificial diretamente em smartphones</strong>, sem necessidade de conexão com a internet. Inicialmente disponível para Android, o app deve chegar ao iOS em breve.</p>
+
+  <p>Com suporte a modelos da plataforma <strong>Hugging Face</strong>, o aplicativo possibilita <strong>geração de imagens, chats com IA, edição de código</strong>, entre outras tarefas. O processamento ocorre diretamente no dispositivo, o que <strong>aumenta a privacidade</strong> e <strong>reduz a dependência de servidores externos</strong>.</p>
+
+  <p><strong>O app traz recursos como:</strong></p>
+  <ul>
+    <li><strong>Chat de IA</strong> e <strong>perguntas sobre imagens</strong></li>
+    <li><strong>Prompt Lab</strong> para testes com modelos ajustáveis</li>
+    <li><strong>Compatibilidade com modelos sob licença Apache 2.0</strong></li>
+  </ul>
+
+  <p>O <strong>AI Edge Gallery</strong> está disponível via GitHub, reforçando o <strong>compromisso do Google com uma abordagem aberta e colaborativa</strong> no desenvolvimento de IA local. A iniciativa visa <strong>democratizar o acesso à tecnologia</strong> e estimular a <strong>participação da comunidade de desenvolvedores</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://t.ctcdn.com.br/7-gF3rPnFU8Ff-dQ-WBCBxSm3EA=/1024x576/smart/i1012875.png" alt="Veo 3: IA do Google cria vídeos realistas em 4K e revoluciona produção audiovisual">
+  </div>
+  <h3>Veo 3: IA do Google cria vídeos realistas em 4K e revoluciona produção audiovisual</h3>
+  <p>Lançado em maio de 2025, o <strong>Veo 3</strong> é o modelo de <strong>geração de vídeo mais avançado do Google</strong>. Capaz de criar <strong>cenas altamente realistas</strong>, a IA ganhou notoriedade na internet graças à <strong>qualidade impressionante</strong> de seus vídeos — com <strong>resolução de até 4K</strong>, sons integrados e <strong>controle detalhado da câmera por comandos de texto</strong>.</p>
+
+  <p>Com ele, usuários podem <strong>produzir vídeos de até 8 segundos</strong> a partir de prompts escritos ou imagens de referência. A ferramenta também permite <strong>juntar diversas cenas, editar storyboards</strong>, criar <strong>narrativas completas</strong> e até <strong>dar voz a personagens</strong>.</p>
+
+  <p>Além dos vídeos realistas, o Veo 3 também gera <strong>animações e conteúdos em outros estilos visuais</strong>. Entre os exemplos que viralizaram, estão produções em que <strong>personagens parecem ter consciência de que foram criados por IA</strong>.</p>
+
+  <p>O <strong>Veo 3</strong> está disponível para usuários dos planos <strong>Google AI Pro</strong> e <strong>AI Pro Ultra</strong>, por meio da plataforma <strong>Flow (labs.google)</strong> ou pelo <strong>assistente Gemini</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/Destaque-Superchip-da-Nvidia-1920x1080.jpg" alt="Nvidia pode lançar superchip com GPU Blackwell e CPU Arm ainda em 2025">
+  </div>
+  <h3>Nvidia pode lançar superchip com GPU Blackwell e CPU Arm ainda em 2025</h3>
+  <p>A Nvidia está prestes a entrar no mercado de processadores com seu <strong>primeiro chip para PCs</strong>, combinando uma <strong>CPU baseada em Arm</strong> com sua nova <strong>GPU Blackwell</strong>, em parceria com a <strong>MediaTek</strong>. O lançamento pode ocorrer ainda este ano em <strong>laptops da Alienware</strong>, marca da Dell voltada para o público gamer.</p>
+
+  <p>O novo chip, classificado como <strong>APU (unidade de processamento acelerado)</strong>, deve operar entre <strong>80W e 120W</strong>, oferecendo <strong>alto desempenho para laptops</strong>. A expectativa é que ele ajude a resolver um problema recorrente dos PCs com Windows em arquitetura Arm: a <strong>necessidade de emular jogos via Prism</strong>, ferramenta da Microsoft, que compromete desempenho e compatibilidade.</p>
+
+  <p>A chegada da Nvidia nesse segmento <strong>desafia o domínio atual da Qualcomm</strong>, cujo chip <strong>Snapdragon X</strong> é limitado por essa emulação. Outras empresas, como <strong>AMD</strong> e <strong>MediaTek</strong>, também estão de olho no <strong>mercado Arm para PCs</strong>, o que deve acirrar a disputa.</p>
+
+  <p>Embora sem confirmação oficial, o <strong>CEO da Nvidia, Jensen Huang</strong>, e o <strong>CEO da Dell, Michael Dell</strong>, já deram sinais públicos sobre os <strong>planos da empresa para CPUs baseadas em Arm</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/esferas-1920x942.jpg" alt="Esferas submersas podem revolucionar armazenamento de energia — Brasil está entre os candidatos">
+  </div>
+  <h3>Esferas submersas podem revolucionar armazenamento de energia — Brasil está entre os candidatos</h3>
+  <p>O <strong>Instituto Fraunhofer (IEE)</strong>, da Alemanha, está testando um novo conceito de <strong>armazenamento de energia com esferas de concreto ocas</strong>, instaladas no fundo do mar. Chamado <strong>StEnSea (Stored Energy in the Sea)</strong>, o projeto transforma o oceano em um <strong>sistema hidrelétrico reversível subaquático</strong>.</p>
+
+  <p>As esferas têm <strong>9 metros de diâmetro</strong>, pesam cerca de <strong>400 toneladas</strong> e são instaladas a até <strong>600 metros de profundidade</strong>. O funcionamento é simples e eficiente:</p>
+
+  <ul>
+    <li><strong>Quando há excesso de energia:</strong> a água é bombeada para fora da esfera, criando um vácuo.</li>
+    <li><strong>Quando a energia é necessária:</strong> a água retorna, girando turbinas e gerando eletricidade.</li>
+  </ul>
+
+  <p>Cada unidade pode armazenar até <strong>20 MWh</strong>, representando uma solução <strong>escalável</strong> e <strong>ambientalmente menos impactante</strong> que represas tradicionais. Além das costas da <strong>Noruega, Portugal, EUA</strong> e <strong>Japão</strong>, o <strong>litoral do Brasil</strong> também está entre os locais viáveis para implantação do sistema.</p>
+
+  <p>Os primeiros testes foram realizados em um <strong>lago alemão</strong>. A versão em escala real deve ser lançada até <strong>2026</strong>, com potenciais aplicações inclusive em conjunto com <strong>turbinas eólicas flutuantes</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/iStock-1823122687-1024x683.jpg" alt="Leite sem vaca: startup brasileira usa DNA e fermentação para criar whey sustentável">
+  </div>
+  <h3>Leite sem vaca: startup brasileira usa DNA e fermentação para criar whey sustentável</h3>
+  <p>A startup brasileira <strong>Future Cow</strong> está desenvolvendo uma <strong>alternativa ao leite tradicional sem uso de vacas</strong>, com foco na produção de <strong>whey</strong> e <strong>caseína</strong> por meio de <strong>fermentação de precisão</strong>. O processo utiliza <strong>sequenciamento genético</strong> para replicar proteínas do leite de forma idêntica, mas com <strong>impacto ambiental drasticamente reduzido</strong>.</p>
+
+  <p><strong>Como funciona:</strong></p>
+  <ul>
+    <li>O <strong>DNA da proteína do leite</strong> é codificado em organismos como <strong>leveduras</strong> e <strong>fungos</strong>.</li>
+    <li>Esses organismos <strong>fermentam em tanques</strong>, como na produção de cerveja.</li>
+    <li>A proteína resultante é <strong>separada, seca</strong> e pode ser <strong>reconstituída com água</strong> para criar produtos como queijos e sorvetes.</li>
+  </ul>
+
+  <p>O método pode ser até <strong>50% mais barato</strong> que a produção convencional e reduz em até <strong>97% as emissões de CO₂</strong>, <strong>99% o uso de água</strong> e <strong>60% o consumo de energia</strong>.</p>
+
+  <p>Com apoio da <strong>Fapesp</strong>, a tecnologia será apresentada na feira <strong>VivaTech</strong>, em <strong>Paris</strong>, entre <strong>11 e 14 de junho</strong>, em busca de novos investidores. A meta é <strong>iniciar a comercialização em 2026</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/chef-inteligncia-artificial-1024x585.jpg" alt="Restaurante em Chicago terá menu criado por chefs que só existem na IA">
+  </div>
+  <h3>Restaurante em Chicago terá menu criado por chefs que só existem na IA</h3>
+  <p>O restaurante <strong>Next</strong>, em Chicago, está prestes a lançar um <strong>menu inusitado em 2026</strong>: <strong>nove pratos criados por nove "chefs" diferentes</strong> — todos personagens fictícios gerados por <strong>inteligência artificial</strong> com ajuda do <strong>ChatGPT</strong>.</p>
+
+  <p>Um dos destaques é <strong>"Jill"</strong>, uma suposta chef americana com um currículo impressionante, incluindo treinamento com mestres como <strong>Ferran Adrià</strong> e <strong>Auguste Escoffier</strong> (que faleceu em 1935). A verdade: <strong>Jill não existe</strong>. Ela é fruto de uma narrativa inventada por <strong>Grant Achatz</strong>, chef e proprietário do Next, que usou o ChatGPT para <strong>criar perfis fictícios e desenvolver pratos</strong> que refletissem as influências de cada "chef".</p>
+
+  <p>Embora a IA tenha idealizado os pratos, a <strong>execução ficará a cargo de cozinheiros humanos</strong>. O projeto levanta debates sobre o <strong>papel da tecnologia na gastronomia</strong>. Enquanto chefs renomados, como <strong>Dominique Crenn</strong>, rejeitam o uso da IA na criação de cardápios, outros, como <strong>Jenner Tomaska</strong>, a utilizam como ferramenta de inspiração.</p>
+
+  <p>Além da criação de receitas, a IA também vem sendo aplicada para <strong>logística, gerenciamento de estoque</strong> e até no <strong>design visual de pratos e restaurantes</strong>.</p>
+</article>
+  </section>
+
+  <section id="saude-tecnologia" class="news-section">
+    <h2>SAÚDE E TECNOLOGIA</h2>
+        <article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/05/iStock-999231414-1024x683.jpg" alt="Redes sociais podem prejudicar o cérebro? Ciência começa a investigar impactos">
+  </div>
+  <h3>Redes sociais podem prejudicar o cérebro? Ciência começa a investigar impactos</h3>
+  <p>O termo <strong>“podridão cerebral”</strong> ganhou destaque em 2025 ao ser escolhido como <strong>palavra do ano pela Oxford University Press</strong>. A expressão se refere a uma possível <strong>degradação das funções mentais</strong> provocada pelo <strong>consumo excessivo de conteúdos superficiais nas redes sociais</strong>.</p>
+
+  <p>Embora não haja comprovação científica definitiva sobre <strong>danos estruturais ao cérebro</strong>, estudos já apontam impactos negativos, especialmente em <strong>adolescentes</strong>. Segundo o <strong>CDC dos EUA</strong>, metade dos jovens passa mais de <strong>4 horas diárias em frente a telas</strong>, o que tem sido associado a <strong>ansiedade, depressão, distúrbios de atenção</strong> e sintomas físicos como <strong>tontura</strong> e <strong>náuseas</strong>.</p>
+
+  <p>Especialistas alertam que o problema não está só no <strong>tempo de tela</strong>, mas na <strong>qualidade do conteúdo</strong>. <strong>Vídeos curtos, rolagem infinita</strong> e <strong>estímulos constantes</strong> podem sobrecarregar o cérebro, <strong>reduzir a empatia</strong> e afetar a <strong>capacidade de foco e tomada de decisões</strong>.</p>
+
+  <p>A recomendação é clara: <strong>moderação no uso</strong>, mais <strong>consciência sobre o tipo de conteúdo consumido</strong> e <strong>equilíbrio com atividades offline</strong> são fundamentais para <strong>preservar a saúde mental</strong> — especialmente de <strong>crianças e adolescentes em fase de desenvolvimento</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/03/tiktok-tdah-1920x1080.jpg" alt="Estudo aponta desinformação em metade das dicas de saúde mental no TikTok">
+  </div>
+  <h3>Estudo aponta desinformação em metade das dicas de saúde mental no TikTok</h3>
+  <p>Uma investigação do <strong>The Guardian</strong> revelou que <strong>52% dos vídeos mais populares</strong> com a hashtag <strong>#mentalhealthtips</strong> no TikTok contêm <strong>informações falsas, imprecisas ou enganosas</strong>. A análise envolveu <strong>100 vídeos avaliados por especialistas</strong> em saúde mental.</p>
+
+  <p>O conteúdo vai de <strong>orientações simplistas</strong>, como “comer uma laranja no banho para reduzir a ansiedade”, a <strong>diagnósticos indevidos</strong> e <strong>sugestões milagrosas para traumas graves</strong>. O estudo alerta para a <strong>banalização de transtornos sérios</strong>, a <strong>confusão entre bem-estar e doenças psiquiátricas</strong>, e o <strong>uso incorreto de linguagem terapêutica</strong>.</p>
+
+  <p>Profissionais como o <strong>neuropsiquiatra David Okai</strong> e a <strong>psicóloga Amber Johnston</strong> chamam atenção para os <strong>riscos da generalização</strong> e da <strong>patologização de emoções comuns</strong>. Já <strong>parlamentares britânicos</strong> pedem <strong>regulamentação mais rigorosa</strong> para impedir que <strong>algoritmos amplifiquem conteúdos prejudiciais</strong>.</p>
+
+  <p>O <strong>TikTok</strong> afirma remover vídeos perigosos e promover <strong>parcerias com entidades confiáveis</strong>, como <strong>NHS</strong> e <strong>OMS</strong>, mas especialistas reforçam: <strong>nenhuma dica viral substitui avaliação clínica profissional</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/05/shutterstock_2307916095.jpg" alt="IA pode enfraquecer sua mente? Especialistas alertam para perda de criatividade e foco">
+  </div>
+  <h3>IA pode enfraquecer sua mente? Especialistas alertam para perda de criatividade e foco</h3>
+  <p>Com o uso crescente da <strong>inteligência artificial em tarefas do dia a dia</strong> — como <strong>escrever e-mails, resumos e até trabalhos escolares</strong> —, especialistas começam a alertar para os <strong>efeitos colaterais da dependência tecnológica</strong>. Segundo estudos, a <strong>simplificação excessiva das atividades cognitivas</strong> pode estar enfraquecendo habilidades humanas essenciais, como <strong>criatividade, memória</strong> e <strong>pensamento crítico</strong>.</p>
+
+  <p>Ao <strong>poupar esforço mental</strong>, o usuário deixa de estimular <strong>conexões neurais profundas</strong>, o que pode afetar o <strong>aprendizado</strong> e <strong>reduzir a capacidade de resolver problemas complexos</strong>. Além disso, a prática excessiva compromete a <strong>concentração</strong> e <strong>empobrece a capacidade de análise</strong>.</p>
+
+  <p><strong>Benefícios do raciocínio profundo:</strong></p>
+  <ul>
+    <li><strong>Estimula a originalidade</strong> e o <strong>pensamento inovador</strong></li>
+    <li><strong>Melhora a memória de longo prazo</strong></li>
+    <li><strong>Fortalece a empatia</strong> e a <strong>comunicação interpessoal</strong></li>
+    <li><strong>Enriquece a capacidade de reflexão</strong> e <strong>tomada de decisão</strong></li>
+  </ul>
+
+  <p>A recomendação é clara: <strong>usar a IA como ferramenta de apoio</strong>, não como substituto do pensamento. <strong>Equilibrar eficiência e profundidade</strong> é essencial para <strong>preservar as capacidades que nos tornam humanos</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/04/neuralink-implante-1920x1080.jpg" alt="Neuralink levanta US$ 650 milhões para expandir testes com chips cerebrais">
+  </div>
+  <h3>Neuralink levanta US$ 650 milhões para expandir testes com chips cerebrais</h3>
+  <p>A <strong>Neuralink</strong>, empresa de <strong>Elon Musk</strong>, captou <strong>US$ 650 milhões</strong> em uma nova rodada de investimentos com o objetivo de <strong>ampliar os testes clínicos</strong> e <strong>aprimorar sua tecnologia de interfaces cerebrais</strong>. O <strong>chip cerebral</strong> da companhia já foi implantado em <strong>cinco pacientes com paralisia grave</strong>, permitindo que eles <strong>controlem dispositivos com o pensamento</strong>.</p>
+
+  <p>A empresa afirma que os recursos serão usados para <strong>tornar os chips mais potentes e acessíveis</strong>, ajudando pacientes com necessidades médicas não atendidas a <strong>recuperarem parte da sua autonomia</strong>. A meta é <strong>expandir os testes para até 30 pacientes</strong> ainda este ano.</p>
+
+  <p>Apesar do avanço, a tecnologia enfrenta <strong>críticas e preocupações éticas</strong>. Especialistas alertam para a <strong>falta de regulamentação</strong>, além dos <strong>testes em animais com alta taxa de mortalidade</strong> e <strong>falhas registradas em implantes humanos</strong> — como o caso de <strong>retração de fios</strong>, que exigiu <strong>ajustes no algoritmo</strong> para manter a funcionalidade.</p>
+
+  <p>A rodada foi liderada por <strong>grandes nomes do setor de investimentos</strong>, incluindo <strong>ARK Invest</strong>, <strong>DFJ Growth</strong>, <strong>Founders Fund</strong>, <strong>Sequoia Capital</strong> e <strong>Thrive Capital</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://mma.prnewswire.com/media/1579028/Paradromics_Inc_logo.jpg?p=facebook" alt="Paradromics desafia Neuralink com teste bem-sucedido de chip cerebral em humano">
+  </div>
+  <h3>Paradromics desafia Neuralink com teste bem-sucedido de chip cerebral em humano</h3>
+  <p>A empresa americana <strong>Paradromics</strong> anunciou a realização do <strong>primeiro teste humano</strong> com seu <strong>chip cerebral Connexus</strong>, marcando mais um passo na <strong>corrida por interfaces cérebro-computador</strong>. O experimento, feito na <strong>Universidade de Michigan</strong>, envolveu <strong>implantar e remover o chip em apenas 20 minutos</strong> durante uma cirurgia em paciente com epilepsia.</p>
+
+  <p>O chip Connexus foi implantado no <strong>lobo temporal</strong>, região responsável por <strong>memória e audição</strong>. Seu objetivo é permitir que <strong>pessoas com paralisias graves</strong> possam <strong>se comunicar e interagir com máquinas usando apenas o pensamento</strong>, por meio da <strong>leitura de sinais neurais com auxílio de IA</strong>.</p>
+
+  <p>O modelo utiliza <strong>420 microagulhas eletrodas</strong>, capazes de <strong>registrar atividades neuronais com alta precisão</strong>. Isso o coloca em <strong>competição direta com o chip da Neuralink</strong>, que usa <strong>64 fios com mais de mil eletrodos</strong>.</p>
+
+  <p>A Paradromics planeja <strong>iniciar ensaios clínicos mais amplos até o final de 2025</strong>, visando pacientes com <strong>ELA, AVC</strong> ou <strong>lesões medulares</strong>. A empresa aposta na <strong>precisão e agilidade do procedimento</strong> como diferenciais para <strong>superar rivais como Neuralink, Synchron e Neuroscience</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/iStock-1314465741-1920x1080.jpg" alt="Super lasers prometem internet mais rápida e avanços médicos">
+  </div>
+  <h3>Super lasers prometem internet mais rápida e avanços médicos</h3>
+  <p>Pesquisadores da <strong>Universidade de Tecnologia de Chalmers</strong>, na Suécia, desenvolveram um novo <strong>amplificador óptico</strong> que pode <strong>multiplicar por dez a velocidade de transmissão de dados</strong> em sistemas de fibra óptica. Fabricado com <strong>nitreto de silício</strong> e miniaturizado em um chip, o dispositivo <strong>amplia a largura de banda de 30 para 300 nanômetros</strong>.</p>
+
+  <p>A inovação utiliza <strong>guias de onda em espiral</strong> para <strong>canalizar a luz com eficiência</strong> e <strong>reduzir o ruído</strong> — algo essencial para aplicações como <strong>comunicações espaciais</strong>. Com o <strong>aumento da demanda por dados</strong> impulsionada por <strong>IA, streaming</strong> e <strong>dispositivos conectados</strong>, a tecnologia surge como <strong>solução estratégica para sustentar a infraestrutura digital até 2030</strong>.</p>
+
+  <p>Além da comunicação, o sistema tem <strong>grande potencial médico</strong>. A maior largura de banda permite <strong>diagnósticos e imagens mais detalhadas</strong>, beneficiando áreas como <strong>análise de tecidos, espectroscopia, microscopia</strong> e <strong>tratamento de doenças</strong>. O avanço também pode <strong>reduzir o tamanho e custo dos sistemas laser</strong>, ampliando seu uso em diferentes setores.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/Impressora-3D-Vital3D-02-1024x576.jpg" alt="Impressão de órgãos: startup dá passo crucial rumo à medicina do futuro">
+  </div>
+  <h3>Impressão de órgãos: startup dá passo crucial rumo à medicina do futuro</h3>
+  <p>A startup lituana <strong>Vital3D</strong> deu um importante passo rumo à <strong>bioimpressão de órgãos humanos</strong> ao desenvolver um <strong>curativo “bioimpresso” para cães</strong>. A tecnologia utiliza um <strong>sistema de laser</strong> para <strong>posicionar células vivas e biomateriais em padrões tridimensionais</strong>, imitando tecidos biológicos reais.</p>
+
+  <p>Batizado de <strong>VitalHeal</strong>, o curativo <strong>acelera a cicatrização</strong>, <strong>reduz infecções</strong> e <strong>diminui custos veterinários</strong>, servindo como base para <strong>aplicações futuras em humanos</strong>. O próximo foco da empresa será o <strong>tratamento de feridas em pessoas com diabetes</strong> e <strong>vítimas de queimaduras</strong>.</p>
+
+  <p>A empresa também trabalha no desenvolvimento de <strong>organoides para testes de medicamentos</strong> e <strong>stents bioimpressos</strong>. Embora ainda haja <strong>desafios técnicos</strong>, como a <strong>vascularização</strong> e a <strong>integração de diferentes tipos celulares</strong>, a Vital3D acredita que <strong>órgãos completos para transplante</strong> possam ser viáveis em até <strong>15 anos</strong>.</p>
+</article>
+  </section>
+
+  <section id="deu-ruim" class="news-section">
+    <h2>BUGOU!</h2>
+        <article class="news-article">
+  <div class="article-image">
+    <img src="https://tm.ibxk.com.br/2025/06/05/05130305555158.jpg?ims=1280x605" alt="Especialistas preveem superinteligência artificial até 2027 e alertam para riscos globais">
+  </div>
+  <h3>Especialistas preveem superinteligência artificial até 2027 e alertam para riscos globais</h3>
+  <p>A <strong>superinteligência artificial</strong> (IA com capacidades superiores às humanas) pode se tornar realidade até o final de <strong>2027</strong>, segundo o relatório <strong>“AI 2027”</strong>, elaborado pelo <strong>AI Futures Project</strong>, organização liderada pelo ex-pesquisador da OpenAI, <strong>Daniel Kokotajlo</strong>.</p>
+
+  <p>O documento traça um cenário em que a <strong>IA evolui rapidamente</strong>: bots <strong>superam programadores humanos já em 2026</strong>, <strong>empregos em TI são eliminados</strong>, e a <strong>automação domina áreas como direito e redação</strong>. Até 2027, o relatório prevê que a IA será capaz de <strong>se autodesenvolver</strong>, ultrapassando qualquer <strong>supervisão humana</strong>.</p>
+
+  <p>Também são levantadas hipóteses como uma possível <strong>guerra cibernética entre EUA e China</strong> e o <strong>risco de a IA desenvolver objetivos próprios</strong>, colocando em xeque a <strong>segurança global</strong>. Os autores pedem <strong>regulamentação urgente</strong> para conter os <strong>impactos negativos da tecnologia</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/leitores-1920x1080.jpg" alt="Redes sociais afetam hábito de leitura: Brasil perde 6,7 milhões de leitores em quatro anos">
+  </div>
+  <h3>Redes sociais afetam hábito de leitura: Brasil perde 6,7 milhões de leitores em quatro anos</h3>
+  <p>Entre <strong>2019 e 2024</strong>, o <strong>Brasil perdeu quase 7 milhões de leitores</strong>, segundo a pesquisa <strong>“Retratos da Leitura”</strong>. A queda é atribuída à <strong>falta de tempo</strong>, ao <strong>desinteresse</strong> e à <strong>preferência pelas redes sociais</strong>. Apenas <strong>27% dos entrevistados</strong> afirmaram ter lido um livro inteiro nos últimos três meses, e a <strong>média nacional caiu de 2,6 para 2,04 livros por pessoa</strong>.</p>
+
+  <p>A leitura depende de <strong>estímulos na infância</strong>, mas só <strong>17% dos leitores foram incentivados por familiares</strong>. Nas escolas públicas, <strong>três em cada dez não possuem biblioteca</strong>. Na vida adulta, o <strong>ritmo acelerado</strong> e a <strong>busca por recompensas rápidas</strong>, como as das redes sociais, tornam o livro menos atrativo.</p>
+
+  <p>Especialistas sugerem <strong>retomar o hábito por meio de obras de interesse pessoal</strong>, reforçando o <strong>papel das famílias e das escolas na formação de novos leitores</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2024/04/self-driving-car-1024x487.jpg" alt="Carros autônomos enfrentam estagnação: tecnologia ainda está longe de ser realidade">
+  </div>
+  <h3>Carros autônomos enfrentam estagnação: tecnologia ainda está longe de ser realidade</h3>
+  <p>Apesar do <strong>otimismo inicial</strong>, o desenvolvimento de <strong>carros totalmente autônomos</strong> perdeu força. Entre <strong>altos custos, falhas técnicas</strong> e <strong>rigor regulatório</strong>, montadoras como <strong>Ford, VW, Apple</strong> e <strong>GM</strong> encerraram seus projetos nessa área.</p>
+
+  <p>A maioria dos sistemas atuais se limita ao <strong>Nível 2 ou 3 de autonomia</strong>, exigindo <strong>supervisão humana</strong>. A <strong>Mercedes-Benz</strong> lidera com tecnologia de <strong>Nível 3</strong> em alguns países, e empresas como <strong>Waymo</strong> e <strong>Baidu</strong> operam robotáxis em zonas controladas (<strong>Nível 4</strong>), mas ainda longe do <strong>Nível 5</strong> — autonomia plena em qualquer situação.</p>
+
+  <p>O <strong>mau uso por motoristas</strong> e as <strong>limitações tecnológicas</strong> persistem, e analistas projetam que <strong>carros realmente autônomos</strong> só devem chegar ao mercado <strong>após 2035</strong>. Até lá, o foco será em <strong>sistemas avançados de assistência ao motorista (ADAS)</strong>, com <strong>segurança</strong> e <strong>eficiência</strong> como prioridades.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/02/9-2-1920x1080.jpg" alt="Fraude no INSS usou robôs para desviar bilhões com descontos indevidos">
+  </div>
+  <h3>Fraude no INSS usou robôs para desviar bilhões com descontos indevidos</h3>
+  <p>A <strong>Polícia Federal</strong> revelou que <strong>robôs foram usados em um esquema de fraude</strong> que desviou cerca de <strong>R$ 6,3 bilhões do INSS</strong> entre 2019 e 2024. A operação utilizava <strong>chamadas automáticas (robocalls)</strong> e a <strong>URA Digital</strong> — tecnologia comum no telemarketing — para <strong>enganar aposentados e pensionistas</strong>, aplicando <strong>descontos não autorizados</strong> em benefícios sociais.</p>
+
+  <p>Mais de <strong>um milhão de pedidos de reembolso</strong> já foram registrados, e o <strong>governo promete ressarcir as vítimas</strong>. A <strong>Justiça bloqueou R$ 119 milhões</strong> dos investigados. A <strong>Anatel</strong> anunciou que prepara medidas para <strong>aumentar a fiscalização das telecomunicações</strong> e <strong>combater abusos</strong> como esse.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://t.ctcdn.com.br/kQ5OYbcFTJJtxRWveYR4eXPE8Sk=/1024x576/smart/i1014797.jpeg" alt="Incêndio em navio com carros elétricos expõe riscos no transporte marítimo">
+  </div>
+  <h3>Incêndio em navio com carros elétricos expõe riscos no transporte marítimo</h3>
+  <p>Um <strong>navio cargueiro com cerca de 3 mil veículos</strong>, incluindo <strong>800 elétricos</strong>, foi <strong>abandonado em alto-mar após pegar fogo</strong> próximo ao <strong>Alasca</strong>. O incidente ocorreu no dia <strong>3 de junho</strong> a bordo do <strong>“Morning Midas”</strong>, operado pela <strong>Zodiac Maritime</strong>. Todos os <strong>22 tripulantes foram resgatados com segurança</strong>.</p>
+
+  <p>O fogo teria se iniciado no convés onde estavam os <strong>carros elétricos</strong>, cujas <strong>baterias de íon-lítio</strong> dificultam o combate a incêndios devido à <strong>alta inflamabilidade</strong>. O navio havia saído da <strong>China</strong> com destino ao <strong>México</strong>, transportando modelos de fabricantes como <strong>GWM</strong> e <strong>Chery</strong>. A <strong>causa exata do incêndio ainda está sob investigação</strong>.</p>
+
+  <p>O caso reacende o <strong>debate sobre a segurança no transporte marítimo de veículos elétricos</strong>, especialmente diante do <strong>crescimento do mercado global</strong> e da <strong>presença crescente desses carros nas exportações asiáticas</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://blogdopavulo.com/wp-content/uploads/2025/06/250605-info-treta-trump-musk-v.jpg" alt="Tesla perde US$ 152 bilhões após conflito público entre Trump e Musk">
+  </div>
+  <h3>Tesla perde US$ 152 bilhões após conflito público entre Trump e Musk</h3>
+  <p>A <strong>Tesla</strong> sofreu uma <strong>queda de 14% em seu valor de mercado</strong> após um <strong>embate público entre Donald Trump e Elon Musk</strong>. O episódio resultou em uma <strong>desvalorização de US$ 152 bilhões</strong>, reduzindo o valor da companhia para <strong>US$ 916 bilhões</strong>.</p>
+
+  <p>O <strong>ex-presidente dos EUA</strong> criticou Musk por <strong>se opor à retirada de subsídios a carros elétricos</strong> e <strong>ameaçou cortar a parceria da NASA com a SpaceX</strong>. Musk, por sua vez, respondeu que <strong>teve papel crucial na vitória de Trump nas eleições passadas</strong>.</p>
+
+  <p>O conflito surge em um <strong>momento delicado para a Tesla</strong>, que já enfrentava <strong>dificuldades com vendas fracas</strong> e <strong>perda de liderança global para a chinesa BYD</strong> no segmento de veículos elétricos. Em 2025, as <strong>ações da empresa acumulam queda de quase 30%</strong>.</p>
+
+  <p>A situação <strong>levanta dúvidas entre acionistas</strong> sobre o <strong>futuro da Tesla</strong> em um <strong>ambiente político cada vez mais volátil</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/04/Destaque-IA-em-chip-1024x576.jpg" alt="ONU alerta: explosão da IA aumenta emissões de carbono em até 182%">
+  </div>
+  <h3>ONU alerta: explosão da IA aumenta emissões de carbono em até 182%</h3>
+  <p>O <strong>crescimento acelerado da inteligência artificial</strong> tem elevado significativamente as <strong>emissões indiretas de carbono</strong>, segundo novo relatório da <strong>União Internacional de Telecomunicações (UIT)</strong>, agência ligada à <strong>ONU</strong>. De <strong>2020 a 2023</strong>, empresas como <strong>Amazon, Microsoft, Alphabet (Google)</strong> e <strong>Meta</strong> viram suas <strong>emissões operacionais aumentarem em média 150%</strong>.</p>
+
+  <p>A <strong>Amazon</strong> lidera o ranking, com alta de <strong>182%</strong> no período. Isso se deve à enorme <strong>demanda energética para operar data centers</strong> usados no treinamento e execução de modelos de IA. Esses centros <strong>consomem eletricidade em ritmo quatro vezes maior</strong> que o crescimento médio global.</p>
+
+  <p>A <strong>UIT</strong> estima que os <strong>sistemas de IA poderão emitir mais de 100 milhões de toneladas de CO₂ por ano</strong> em breve. Apesar de <strong>metas ambientais declaradas</strong>, o relatório destaca que ainda <strong>não houve reduções significativas nas emissões</strong> dessas gigantes tecnológicas.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2024/11/inteligencia-artificial-1920x1080.jpg" alt="Farsa da IA: empresa bilionária usava 700 humanos no lugar de algoritmo">
+  </div>
+  <h3>Farsa da IA: empresa bilionária usava 700 humanos no lugar de algoritmo</h3>
+  <p>A <strong>Builder.ai</strong>, startup londrina que prometia <strong>automatizar a criação de aplicativos</strong> por meio de inteligência artificial, declarou falência após uma <strong>fraude vir à tona</strong>: os serviços oferecidos pela empresa eram executados por <strong>700 engenheiros humanos</strong>, e não por IA como alegado.</p>
+
+  <p>Avaliada em <strong>US$ 1,5 bilhão</strong>, a companhia <strong>enganou investidores</strong>, incluindo a <strong>Microsoft</strong>, durante <strong>oito anos</strong>. A assistente virtual <strong>“Natasha”</strong>, anunciada como uma IA programadora, era apenas <strong>fachada para uma operação manual</strong>. Após <strong>denúncias de manipulação contábil</strong> e a retirada de <strong>US$ 37 milhões por credores</strong>, a empresa colapsou, <strong>demitiu cerca de mil funcionários</strong> e <strong>encerrou suas atividades</strong>.</p>
+
+  <p>O caso levanta um <strong>alerta importante sobre práticas enganosas</strong> no mercado de inteligência artificial e reforça a <strong>necessidade de maior transparência e regulação</strong> no setor.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/04/satlites-starlink-1024x682.jpg" alt="Brasileiro na NASA revela como tempestades solares estão derrubando satélites">
+  </div>
+  <h3>Brasileiro na NASA revela como tempestades solares estão derrubando satélites</h3>
+  <p>Um estudo liderado pelo <strong>físico brasileiro Denny Oliveira</strong>, da <strong>NASA</strong>, revelou como a <strong>atividade solar extrema</strong> afeta diretamente <strong>satélites em órbita baixa</strong>, como os da constelação <strong>Starlink</strong>. <strong>Tempestades solares intensas</strong> expandem a atmosfera terrestre, <strong>aumentando o arrasto atmosférico</strong> e acelerando a queda desses satélites.</p>
+
+  <p>A pesquisa, baseada em mais de <strong>500 reentradas entre 2020 e 2024</strong>, mostra que quase metade ocorreu em <strong>altitudes críticas</strong>. Um dos casos mais drásticos foi o do <strong>satélite Starlink-2601</strong>, que despencou de <strong>276 km para 100 km</strong> em apenas dois dias após uma <strong>supertempestade solar</strong>.</p>
+
+  <p>Além das <strong>variações atmosféricas</strong>, <strong>diferenças de peso, forma e modelo</strong> entre os satélites complicam ainda mais as <strong>previsões de reentrada</strong>. A descoberta é essencial para <strong>melhorar a segurança no espaço</strong> e <strong>evitar riscos à infraestrutura orbital e terrestre</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/iStock-898222360-1024x678.jpg" alt="Brasil está entre os países com mais ameaças de malware">
+  </div>
+  <h3>Brasil está entre os países com mais ameaças de malware</h3>
+  <p>O <strong>Brasil</strong> ocupa a <strong>sexta posição no ranking mundial de ameaças de malware</strong>, com mais de <strong>168 milhões de registros em 2024</strong>, segundo o <strong>Trend Micro Cyber Risk Report 2025</strong>. O estudo destaca o <strong>uso crescente de inteligência artificial por criminosos</strong> para tornar ataques como <strong>phishing</strong> e <strong>ransomware</strong> mais sofisticados e eficazes.</p>
+
+  <p>Setores como <strong>financeiro, saúde, varejo</strong> e <strong>governo</strong> são os principais alvos, devido ao <strong>alto valor dos dados envolvidos</strong> e à <strong>segurança digital ainda insuficiente</strong> em muitas instituições. O relatório aponta como principais falhas no país a <strong>ausência de autenticação multifator</strong>, <strong>configurações inadequadas em nuvem</strong>, <strong>falta de atualizações</strong> e <strong>pouco treinamento para identificar ameaças</strong>.</p>
+
+  <p>A recomendação é <strong>fortalecer a segurança com autenticação multifator</strong>, <strong>auditorias constantes</strong>, <strong>uso de soluções XDR</strong> e <strong>capacitação contínua de equipes</strong> para mitigar os riscos.</p>
+</article>
+  </section>
+
+  <section id="noticias-variadas" class="news-section">
+    <h2>NOTÍCIAS VARIADAS</h2>
+    <article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/cratera-polo-norte-lua-1920x1080.jpg" alt="Crateras da Lua podem conter US$ 1 trilhão em metais raros">
+  </div>
+  <h3>Crateras da Lua podem conter US$ 1 trilhão em metais raros</h3>
+  <p>Um estudo publicado na <strong>Planetary and Space Science</strong> sugere que a <strong>Lua pode ser mais promissora que os asteroides</strong> para a mineração espacial. Segundo os pesquisadores, cerca de <strong>6.500 crateras lunares</strong> guardam <strong>metais preciosos</strong>, como <strong>platina</strong>, em <strong>quantidades comercialmente viáveis</strong>.</p>
+
+  <p>Esses metais teriam sido deixados por <strong>impactos de alta velocidade com asteroides e cometas</strong>. Estima-se que o <strong>valor total desses recursos ultrapasse US$ 1 trilhão</strong>, tornando a <strong>mineração lunar uma alternativa altamente lucrativa</strong>.</p>
+
+  <p>A análise aponta que <strong>crateras maiores, com mais de 5 km de diâmetro</strong>, concentram os maiores depósitos. A descoberta pode <strong>impulsionar o interesse de empresas privadas</strong> em <strong>explorar economicamente o espaço</strong>, especialmente em um momento em que a <strong>exploração científica ainda depende de recursos públicos</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/04/tesla-1920x1080.jpg" alt="Tesla tenta impedir divulgação de dados sobre sistema autônomo">
+  </div>
+  <h3>Tesla tenta impedir divulgação de dados sobre sistema autônomo</h3>
+  <p>A <strong>Tesla</strong> entrou na Justiça para <strong>barrar a divulgação de informações sobre acidentes</strong> envolvendo seus <strong>sistemas de direção autônoma</strong>. A montadora alega que os dados solicitados pela <strong>agência reguladora dos EUA (NHTSA)</strong> são <strong>confidenciais</strong> e que sua exposição poderia <strong>favorecer concorrentes</strong>.</p>
+
+  <p>Entre os dados solicitados estão <strong>comportamento do motorista</strong>, <strong>condições da estrada</strong> e <strong>versões de software</strong> utilizadas nos incidentes. O jornal <strong>The Washington Post</strong> já havia processado a NHTSA por ocultar essas informações, argumentando que parte delas é <strong>acessível aos próprios motoristas</strong>.</p>
+
+  <p>Enquanto enfrenta essa pressão judicial, a Tesla <strong>planeja lançar seu serviço de robotáxis em Austin, Texas</strong>, ainda este mês. A disputa coincide com <strong>acusações de que a empresa se vale de brechas regulatórias</strong> para <strong>evitar transparência</strong> e com a <strong>recente saída de Elon Musk de um cargo no governo</strong> que supervisionava parte do setor.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/oculos-vr-1920x1080.jpg" alt="Meta planeja novo óculos de realidade virtual com conteúdo exclusivo">
+  </div>
+  <h3>Meta planeja novo óculos de realidade virtual com conteúdo exclusivo</h3>
+  <p>A <strong>Meta</strong> prepara um <strong>novo headset premium de realidade virtual</strong>, com lançamento previsto para <strong>2026</strong>. Chamado internamente de <strong>“Loma”</strong>, o dispositivo será <strong>compacto</strong>, terá <strong>vídeo de alta fidelidade</strong> e <strong>preço abaixo de US$ 1.000</strong>, posicionando-se entre os modelos <strong>Quest</strong> e o <strong>Vision Pro da Apple</strong>, que custa US$ 3.500.</p>
+
+  <p>Para fortalecer sua plataforma, a Meta <strong>negocia com estúdios como Disney e A24</strong> para oferecer <strong>experiências imersivas exclusivas</strong>. A empresa está <strong>financiando produções com grandes franquias</strong> e já firmou acordos com a <strong>Disney</strong> e a <strong>Lightstorm Entertainment</strong>, que preparam conteúdos como <strong>experiências de Star Wars para o Quest</strong>.</p>
+
+  <p>A estratégia mira <strong>popularizar os headsets além do público gamer</strong>, embora a Meta ainda enfrente <strong>desafios financeiros</strong>: sua <strong>divisão de realidade estendida acumulou perdas de US$ 17,7 bilhões em 2023</strong>. Ainda assim, segue <strong>líder em vendas no setor</strong> e tenta ampliar seu apelo com <strong>produções cinematográficas exclusivas</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/jony-ive-1920x1080.jpg" alt="Jony Ive e OpenAI planejam dispositivo com foco no bem-estar humano">
+  </div>
+  <h3>Jony Ive e OpenAI planejam dispositivo com foco no bem-estar humano</h3>
+  <p><strong>Jony Ive</strong>, o renomado designer do iPhone, revelou que seu novo projeto com a <strong>OpenAI</strong> busca <strong>corrigir os excessos da era digital</strong>. Após vender sua startup de hardware, a <strong>LoveFrom io</strong>, por <strong>US$ 6,4 bilhões</strong>, Ive afirmou que a iniciativa nasce da convicção de que <strong>“a humanidade merece algo melhor”</strong>.</p>
+
+  <p>Segundo ele, o <strong>novo dispositivo</strong> — ainda envolto em sigilo — será <strong>guiado por valores humanos</strong>, priorizando uma <strong>relação mais saudável com a tecnologia</strong>. O CEO da OpenAI, <strong>Sam Altman</strong>, classificou o protótipo como <strong>“a tecnologia mais incrível que o mundo já viu”</strong>. Rumores indicam que será <strong>compacto, sem tela</strong> e <strong>usado no pescoço</strong>, com <strong>lançamento previsto para 2027</strong>.</p>
+
+  <p>A <strong>viúva de Steve Jobs, Laurene Powell Jobs</strong>, também apoia o projeto e expressou <strong>preocupação com os impactos negativos dos smartphones sobre os jovens</strong>, reforçando a <strong>necessidade de dispositivos mais conscientes e centrados no usuário</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/IA-ndia-2-1920x1080.jpg" alt="Índia precisará de um milhão de especialistas em IA até 2026">
+  </div>
+  <h3>Índia precisará de um milhão de especialistas em IA até 2026</h3>
+  <p>A <strong>Índia</strong> intensifica seus <strong>investimentos em educação tecnológica</strong> com o objetivo de formar <strong>um milhão de profissionais em inteligência artificial</strong> até 2026. A meta faz parte de um plano ambicioso: <strong>tornar-se uma das maiores economias do mundo até 2047</strong>, com um PIB acima de <strong>US$ 30 trilhões</strong>.</p>
+
+  <p>Para atender à demanda crescente, universidades ampliaram vagas em cursos de <strong>ciência da computação, IA, machine learning, ciência de dados</strong> e <strong>cibersegurança</strong> — áreas que já acumulam aumento superior a <strong>50% nas matrículas</strong>.</p>
+
+  <p>Além disso, o ensino superior indiano adota uma abordagem mais ampla e interdisciplinar. O modelo <strong>STEAM</strong> (que inclui artes, comunicação e psicologia) está substituindo o tradicional <strong>STEM</strong>, preparando profissionais mais <strong>criativos e inovadores</strong>. A previsão é que o mercado de IA no país atinja <strong>US$ 28,8 bilhões até 2025</strong>, impulsionado por um <strong>crescimento médio anual de 45%</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/airbnb-1-1920x1080.jpg" alt="Airbnb Busca Transformação em 'Rede Social da Vida Real'">
+  </div>
+  <h3>Airbnb Busca Transformação em "Rede Social da Vida Real"</h3>
+  <p>O CEO do <strong>Airbnb</strong>, <strong>Brian Chesky</strong>, anunciou planos para uma <strong>reestruturação abrangente da plataforma</strong>, visando expandir seus serviços muito além da hospedagem. A visão é transformar o aplicativo em uma <strong>"rede social da vida real"</strong>, onde a interação e a oferta de <strong>serviços personalizados</strong> se tornem o foco principal.</p>
+
+  <p>A plataforma passará a oferecer <strong>experiências guiadas por celebridades</strong> e uma gama de <strong>serviços sob demanda</strong>, como <strong>chefs particulares, fotógrafos</strong> e <strong>massagistas</strong>. Essa expansão visa atender a uma demanda identificada em pesquisas com usuários, que expressaram interesse em serviços adicionais durante suas estadias. Por exemplo, a disponibilidade de <strong>cozinhas amplas</strong> em muitas residências alugadas levou à ideia de oferecer chefs que pudessem preparar refeições, maximizando o uso desses espaços.</p>
+
+  <p>Chesky enfatizou que a intenção é criar um ambiente onde <strong>usuários e anfitriões estejam genuinamente conectados</strong>, com todas as interações e serviços ocorrendo no mundo real. A expectativa é que o Airbnb se torne um <strong>ecossistema completo</strong> focado em conectar pessoas através de suas <strong>paixões, habilidades</strong> e <strong>tempo</strong>.</p>
+
+  <p>A <strong>Inteligência Artificial (IA)</strong> desempenhará um papel crucial nessa transformação. Segundo o CEO, a IA será integrada em todos os processos da plataforma, <strong>simplificando a experiência do usuário</strong> e transformando o aplicativo em um <strong>"concierge de viagens" inteligente</strong>. Chesky ressaltou a importância de utilizar os avanços tecnológicos de forma benéfica, reconhecendo o potencial da IA para <strong>otimizar e personalizar as interações</strong> na plataforma.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://tm.ibxk.com.br/2025/06/06/06142630387032.jpg?ims=1280x605" alt="O Fim da 'Matrix'? Estudo Sugere Improbabilidade da Hipótese de Simulação">
+  </div>
+  <h3>O Fim da "Matrix"? Estudo Sugere Improbabilidade da Hipótese de Simulação</h3>
+  <p>Um novo estudo publicado na revista <strong>Frontiers in Physics</strong> desafia a popular teoria de que nossa realidade é uma <strong>simulação de computador</strong>. O astrofísico <strong>Franco Vazza</strong>, da <strong>Universidade de Bolonha</strong>, analisou a viabilidade de um universo simulado com base nas leis da física e concluiu que tal empreendimento exigiria <strong>quantidades impossivelmente grandes de energia e poder computacional</strong>.</p>
+
+  <h4>Por Que a Simulação é Improvável?</h4>
+  <p>A pesquisa de Vazza indica que, para simular um universo tão complexo quanto o nosso, os <strong>recursos físicos necessários seriam astronomicamente altos</strong>. Mesmo em cenários onde apenas a Terra fosse simulada, os <strong>requisitos de energia seriam inviáveis</strong>. Assim, o estudo reforça a ideia de que vivemos na <strong>"realidade básica"</strong>, ou seja, um universo que se expandiu por bilhões de anos e é regido por <strong>leis físicas autênticas</strong>, e não por um código.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2021/07/STF.jpg" alt="STF Debate Futuro da Moderação em Redes Sociais">
+  </div>
+  <h3>STF Debate Futuro da Moderação em Redes Sociais</h3>
+  <p>O <strong>Supremo Tribunal Federal (STF)</strong> retomou o julgamento crucial sobre a <strong>responsabilidade das redes sociais</strong> por conteúdos publicados por terceiros. A discussão gira em torno do <strong>Artigo 19 do Marco Civil da Internet</strong>, que define quando as plataformas podem ser responsabilizadas.</p>
+
+  <p>Ministros como <strong>Luís Roberto Barroso, Luiz Fux</strong> e <strong>Dias Toffoli</strong> já manifestaram votos favoráveis a uma <strong>maior responsabilidade das plataformas</strong>, com propostas que variam desde a <strong>remoção de conteúdos específicos</strong> (como pornografia infantil e terrorismo) sem ordem judicial, até a remoção de conteúdos ofensivos por notificação extrajudicial. As grandes empresas de tecnologia defendem seus mecanismos de moderação existentes e buscam um <strong>aprimoramento da lei</strong> que garanta <strong>segurança jurídica</strong> e evite <strong>censura</strong>. O julgamento segue em andamento.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://t.ctcdn.com.br/fhLfooYjQz8nTw2Q8xaKgLJwINU=/1024x0/smart/i995569.png" alt="Windows 11 Ganha Recurso para Estender Bateria de Notebooks">
+  </div>
+  <h3>Windows 11 Ganha Recurso para Estender Bateria de Notebooks</h3>
+  <p>A <strong>Microsoft</strong> está implementando uma novidade no <strong>Windows 11</strong> para otimizar a <strong>duração da bateria de notebooks</strong>. O recurso, batizado de <strong>"Gerenciamento de energia da CPU baseado em interação com o usuário"</strong>, foi projetado para <strong>diminuir o consumo do processador de forma inteligente</strong>.</p>
+
+  <p>Quando o usuário não estiver interagindo com o notebook — seja pelo <strong>mouse, teclado</strong> ou <strong>touchpad</strong> —, o sistema operacional ativará esse modo de economia. Isso resulta na <strong>redução das frequências e da voltagem da CPU</strong>, permitindo que ela opere em um estado de <strong>menor consumo energético</strong>. Importante notar que essa funcionalidade <strong>não depende de inteligência artificial</strong>, diferenciando-se de outras soluções já existentes.</p>
+
+  <p>Contudo, para garantir a melhor experiência, o sistema é inteligente o suficiente para <strong>não ativar o modo de economia durante a reprodução de vídeos</strong>, mesmo sem interação. Assim que qualquer comando do usuário é detectado, a CPU retorna ao seu funcionamento normal.</p>
+
+  <p>Essa otimização será um grande benefício, especialmente para notebooks que não possuem os processadores mais recentes e eficientes do mercado. Além disso, ela pode ampliar ainda mais a já robusta autonomia dos <strong>Copilot+ PCs</strong>. A data de lançamento exata para essa atualização ainda não foi confirmada.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://cdn.oantagonista.com/uploads/2024/02/2023_07_19_Inteligencia-Artificial-Capa-1280x720-1-1024x536.png" alt="IAs de Vídeo e o Dilema da Realidade no Jornalismo e Redes Sociais">
+  </div>
+  <h3>IAs de Vídeo e o Dilema da Realidade no Jornalismo e Redes Sociais</h3>
+  <p>A evolução das <strong>Inteligências Artificiais (IAs) de vídeo</strong> está borrando a linha entre o que é <strong>real e o que é artificial</strong>, criando um <strong>desafio ético</strong> para o jornalismo e as plataformas digitais. A capacidade dessas IAs de gerar <strong>vídeos extremamente realistas</strong> levanta a questão de como <strong>verificar a autenticidade da informação</strong> e <strong>combater a desinformação</strong>.</p>
+
+  <p>O jornalismo precisará de <strong>novas ferramentas e profissionais</strong> para identificar conteúdos gerados por IA e garantir a veracidade. Em resposta, iniciativas como o padrão <strong>C2PA</strong> buscam criar um <strong>"histórico de origem"</strong> digital para conteúdos visuais, indicando sua <strong>procedência e edições</strong>.</p>
+
+  <p>Além disso, as plataformas digitais enfrentam uma <strong>pressão crescente</strong> para assumir maior <strong>responsabilidade editorial</strong>, sinalizando conteúdos gerados por IA e filtrando informações potencialmente danosas. O debate é se essas plataformas devem ser vistas como meras <strong>"vitrines neutras"</strong> ou se têm o <strong>dever de curar a verdade</strong> em seus feeds.</p>
+</article>
+  </section>
+  
+  <section id="curiosidades" class="news-section">
+    <h2>CURIOSIDADES</h2>
+        <article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/06/Sol-artificial-estados-unidos-1920x1080.jpg" alt="EUA Terão 'Sol Artificial' com Apoio de Big Techs">
+  </div>
+  <h3>EUA Terão "Sol Artificial" com Apoio de Big Techs</h3>
+  <p>A startup <strong>Commonwealth Fusion Systems (CFS)</strong>, ligada ao <strong>MIT</strong>, conseguiu mais de <strong>US$ 1 bilhão em investimentos</strong>, incluindo aportes do <strong>Google</strong> e <strong>Microsoft</strong>, para construir a primeira <strong>usina de energia de fusão nuclear</strong> em escala de rede nos Estados Unidos. O projeto, apelidado de <strong>"Sol artificial"</strong>, tem previsão de iniciar operações no início da década de <strong>2030</strong>.</p>
+
+  <h4>Tecnologia e Impacto Estratégico</h4>
+  <p>A usina <strong>ARC</strong> gerará cerca de <strong>400 megawatts de eletricidade limpa</strong>, replicando o processo de fusão do Sol sem resíduos radioativos de longa duração. Ela será construída na <strong>Virgínia</strong>, um estado com grande concentração de data centers, o que a torna uma localização estratégica devido à crescente demanda por energia. Embora a tecnologia seja promissora, o setor de fusão nuclear ainda enfrenta <strong>desafios de financiamento</strong> e <strong>incertezas econômicas</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/05/capa-olhar-digital-1-1-1920x1080.png" alt="Home Lab: Transforme Sua Casa em um Laboratório de TI">
+  </div>
+  <h3>Home Lab: Transforme Sua Casa em um Laboratório de TI</h3>
+  <p>A prática de montar um <strong>home lab</strong> — um laboratório de tecnologia em casa — está se tornando cada vez mais popular. Essa tendência permite que entusiastas e profissionais de TI criem um <strong>ambiente de testes e estudos personalizado</strong>, oferecendo uma oportunidade prática para <strong>aprimorar habilidades</strong> e desenvolver projetos pessoais.</p>
+
+  <h4>O Que É e Para Que Serve um Home Lab?</h4>
+  <p>Um home lab consiste em um ou mais servidores configurados em um ambiente doméstico. Ele serve como um espaço para:</p>
+  <ul>
+    <li><strong>Experimentar ferramentas:</strong> Testar diferentes softwares e sistemas operacionais (como Linux e Windows Server).</li>
+    <li><strong>Praticar configurações:</strong> Aprofundar conhecimentos em redes e serviços.</li>
+    <li><strong>Aprender sobre tecnologias:</strong> Explorar o uso de containers (Docker, Podman) e virtualização (VMware, Proxmox, VirtualBox).</li>
+    <li><strong>Desenvolver projetos práticos:</strong> Hospedar sites, aplicativos e bots, criar automações domésticas, monitorar e gravar ambientes, configurar bancos de dados e nuvens pessoais para armazenamento de arquivos.</li>
+  </ul>
+  <p>A grande vantagem de um home lab é a <strong>autonomia e flexibilidade</strong>. Ele permite um aprendizado aprofundado em um cenário realista, sem os riscos de afetar ambientes de produção ou a dependência de serviços de terceiros.</p>
+
+  <h4>Como Construir um Home Lab</h4>
+  <p>Para começar, não são necessários grandes investimentos. Um computador antigo ou reaproveitado pode servir como base para criar máquinas virtuais, utilizando ferramentas como <strong>VirtualBox, Proxmox</strong> ou <strong>VMware</strong>. É fundamental ter acesso à internet e um conhecimento básico em redes e sistemas operacionais para configurar os serviços iniciais.</p>
+
+  <p>À medida que a experiência aumenta, o home lab pode ser expandido com equipamentos de rede (<strong>roteadores, switches</strong>), mini PCs (como <strong>Raspberry Pi</strong>) e até servidores dedicados. Softwares como <strong>Docker</strong> para gerenciamento de containers, <strong>Home Assistant</strong> para automação residencial e sistemas de monitoramento com câmeras conectadas são adições comuns, permitindo um controle ainda maior sobre os próprios dados e serviços.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/01/shutterstock_2323423867-edited-1920x1080.jpg" alt="A Campainha de Oxford: Uma Bateria Que Desafia o Tempo">
+  </div>
+  <h3>A Campainha de Oxford: Uma Bateria Que Desafia o Tempo</h3>
+  <p>No <strong>Laboratório Clarendon</strong> da <strong>Universidade de Oxford</strong>, na Inglaterra, um experimento secular continua a intrigar cientistas e entusiastas da tecnologia: a <strong>Campainha Elétrica de Oxford</strong>, um dispositivo que funciona ininterruptamente há pelo menos <strong>185 anos</strong>. Conhecida também como <strong>Clarendon Dry Pile</strong>, essa relíquia do século XIX ostenta o título de <strong>"bateria mais durável do mundo"</strong> pelo Guinness Book, operando sem nunca ter tido sua bateria original recarregada ou substituída.</p>
+
+  <p>A longevidade da campainha é atribuída ao seu <strong>incrivelmente baixo consumo de energia</strong>. Especialistas estimam que a bateria gasta apenas <strong>1 nanoampere</strong> a cada oscilação do pequeno sino. A composição exata da bateria permanece um mistério, pois, por precaução, os cientistas optam por <strong>não intervir no dispositivo</strong> para não interromper seu funcionamento. Acredita-se que seja uma das primeiras <strong>"pilhas secas"</strong>, possivelmente contendo discos de <strong>prata, zinco</strong> e <strong>enxofre</strong>.</p>
+
+  <p>Embora o movimento do sino ainda seja constante, o som que ele produzia não é mais audível ao ouvido humano, uma consequência da <strong>baixíssima voltagem remanescente</strong>. Observou-se uma desaceleração em seu movimento nas últimas quatro décadas, levando a previsões de que o mecanismo pode parar de funcionar na próxima década. No entanto, o mistério de sua composição e a impressionante durabilidade continuam a fascinar, tornando-a um <strong>ícone da perseverança tecnológica</strong>.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://blog.eseg.edu.br/wp-content/uploads/2023/05/Blogpost-chat-gpt.png" alt="OpenAI Almeja Integrar ChatGPT Profundamente no Cotidiano dos Usuários">
+  </div>
+  <h3>OpenAI Almeja Integrar ChatGPT Profundamente no Cotidiano dos Usuários</h3>
+  <p>Um documento estratégico interno da <strong>OpenAI</strong>, que veio a público durante o processo antitruste do Google, revela os <strong>planos ambiciosos</strong> da empresa para o futuro do <strong>ChatGPT</strong>. O objetivo é transformar o chatbot em um verdadeiro <strong>"superassistente de IA"</strong>, que se tornará uma interface central na vida pessoal e profissional dos usuários.</p>
+
+  <p>O plano, intitulado <strong>"ChatGPT: Estratégia H1 2025"</strong>, detalha a intenção de ir além das respostas a perguntas. A ferramenta poderá assumir funções de um <strong>assistente pessoal altamente capacitado</strong>, auxiliando em tarefas como <strong>agendamentos, planejamento de viagens, gerenciamento de calendários</strong> e <strong>envio de e-mails</strong>. Além disso, a visão inclui a capacidade de oferecer <strong>suporte emocional</strong>, atuando como um <strong>"conselheiro de vida"</strong>, conforme sugerido pelo CEO da OpenAI, <strong>Sam Altman</strong>.</p>
+
+  <p>Essa expansão será impulsionada por avanços nos modelos de linguagem da OpenAI, como o <strong>GPT-4.5</strong> e o futuro <strong>GPT-5</strong>, além de ferramentas de <strong>controle de computador</strong> e <strong>interfaces multimodais</strong>. A OpenAI planeja integrar o ChatGPT em diversos aspectos do dia a dia das pessoas — em casa, no trabalho e em movimento —, inclusive com a possibilidade de desenvolver seus próprios dispositivos.</p>
+
+  <p>Apesar da ousadia dos planos, o documento reconhece <strong>desafios</strong> como a <strong>infraestrutura limitada</strong>, a <strong>crescente concorrência</strong> no mercado de IA e as <strong>pressões regulatórias</strong>. Para se diferenciar, a OpenAI pretende focar na <strong>agilidade da inovação</strong>, na defesa da <strong>interoperabilidade entre assistentes</strong> e na <strong>ausência de um modelo de negócio baseado em anúncios</strong>, que são vistos como vantagens competitivas.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2024/10/google-search-1920x1080.jpg" alt="Google Aprimora Busca com IA: Voz em Tempo Real Chega ao Search Live">
+  </div>
+  <h3>Google Aprimora Busca com IA: Voz em Tempo Real Chega ao Search Live</h3>
+  <p>O <strong>Google</strong> está implementando uma novidade na sua plataforma de busca: o <strong>Search Live</strong>. Este recurso de <strong>interação por voz</strong>, integrado à Pesquisa com IA, está sendo liberado para usuários selecionados nos <strong>Estados Unidos</strong>, tanto no aplicativo do Google para <strong>Android</strong> quanto para <strong>iOS</strong>.</p>
+
+  <p>A principal diferença do Search Live em relação ao assistente <strong>Gemini</strong> é a capacidade de permitir <strong>conversas por voz em tempo real</strong>. Os usuários podem fazer perguntas oralmente e receber respostas faladas, criando um <strong>fluxo de interação mais natural</strong>. Para aqueles que preferem, há a opção de silenciar o áudio e ler a transcrição da resposta.</p>
+
+  <p>A tecnologia por trás dessa funcionalidade é o <strong>Projeto Astra</strong>, um sistema desenvolvido para <strong>processar comandos de voz de forma instantânea</strong>. Visualmente, quando ativado, um ícone de onda substitui o antigo atalho do <strong>Google Lens</strong> abaixo da barra de pesquisa. Para tornar a experiência mais personalizada, o Search Live oferece quatro opções de vozes — <strong>Cosmo, Neso, Terra</strong> e <strong>Cassini</strong> — que podem ser escolhidas nas configurações.</p>
+
+  <p>Este novo recurso se integra ao já existente <strong>Modo IA da Pesquisa Google</strong>. Esse modo transforma a experiência de busca tradicional em uma <strong>conversa dinâmica</strong>, fornecendo respostas diretas, resumos e elementos visuais. Ele é capaz de <strong>compreender perguntas completas</strong>, oferecer contexto e sugerir interações seguintes. O Google ainda tem planos para o futuro, incluindo a integração de <strong>transmissões ao vivo de câmera</strong> nesse modo, o que promete ampliar ainda mais a <strong>interatividade e a imersão</strong> na busca por informações.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://img.odcdn.com.br/wp-content/uploads/2025/05/marketing-1920x1080.jpg" alt="Pesquisa Questiona: A Inteligência Artificial Realmente Aumenta a Produtividade em Todas as Áreas?">
+  </div>
+  <h3>Pesquisa Questiona: A Inteligência Artificial Realmente Aumenta a Produtividade em Todas as Áreas?</h3>
+  <p>A <strong>Inteligência Artificial (IA)</strong> tem sido amplamente aclamada como um <strong>motor de produtividade</strong> no mercado de trabalho. No entanto, uma pesquisa recente conduzida por instituições renomadas como <strong>Harvard, MIT, Warwick</strong> e a <strong>Universidade da Pensilvânia</strong> buscou aprofundar essa questão, analisando o impacto real da IA em diferentes tipos de tarefas.</p>
+
+  <h4>Resultados Variados Conforme a Aplicação da IA</h4>
+  <p>O estudo envolveu <strong>758 consultores do Boston Consulting Group (BCG)</strong>, divididos em grupos que realizavam tarefas com e sem o auxílio do modelo <strong>GPT-4</strong>. As missões incluíam:</p>
+  <ul>
+    <li><strong>Geração de ideias criativas:</strong> Criar conceitos de calçados para nichos de mercado.</li>
+    <li><strong>Resolução de problemas analíticos:</strong> Solucionar um problema de negócios complexo baseado em entrevistas e dados, com a particularidade de que a IA, nesse cenário, foi programada para fornecer informações incorretas propositalmente.</li>
+  </ul>
+
+  <p>Os resultados revelaram que a IA demonstrou ser <strong>altamente eficaz na tarefa criativa</strong>, permitindo uma execução mais rápida e com maior qualidade. Contudo, quando aplicada ao problema que exigia <strong>análise crítica e discernimento</strong>, a tecnologia apresentou um <strong>desempenho inferior</strong> em comparação com o grupo que não utilizou a ferramenta. Isso sugere que a IA ainda não é totalmente confiável para cenários que demandam <strong>julgamento humano</strong> e <strong>interpretação de dados complexos</strong>, especialmente quando há informações enganosas.</p>
+
+  <h4>A Importância de Compreender as Limitações da IA</h4>
+  <p>A principal conclusão da pesquisa é que, embora a IA seja uma ferramenta poderosa para tarefas que demandam <strong>criatividade</strong> e <strong>fluidez de ideias</strong>, ela possui <strong>limitações significativas</strong> em problemas que exigem <strong>discernimento crítico</strong> e <strong>interpretação complexa</strong>.</p>
+
+  <p>Para profissionais em um ambiente de negócios cada vez mais dinâmico, a pesquisa enfatiza a importância de <strong>aprender a interagir com a inteligência artificial de forma estratégica</strong>. Mais do que uma simples habilidade técnica, o <strong>domínio da tecnologia</strong>, com clareza sobre suas <strong>potencialidades</strong> e, principalmente, suas <strong>limitações</strong>, torna-se uma <strong>habilidade estratégica crucial</strong> para o destaque no mercado de trabalho.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://t.ctcdn.com.br/SK5mH8nage5pPDwbRwK1xImRjsg=/1024x576/smart/i922163.jpeg" alt="Intel Adota Nova Política de Lucratividade Mínima de 50% para Produtos">
+  </div>
+  <h3>Intel Adota Nova Política de Lucratividade Mínima de 50% para Produtos</h3>
+  <p>Em um movimento estratégico para reverter sua atual crise, a <strong>Intel</strong> anunciou uma nova política interna: a empresa não desenvolverá produtos que não garantam uma <strong>margem de lucro mínima de 50%</strong>. A medida foi comunicada por <strong>Michelle Holthaus</strong>, CEO de produtos do "Time Azul", em uma conferência de tecnologia.</p>
+
+  <h4>Mudança de Rumo e Foco no Lucro</h4>
+  <p>A decisão significa que qualquer novo projeto que não projete essa margem de lucro <strong>não receberá alocação de engenheiros</strong> nem avançará no processo de desenvolvimento. Holthaus indicou que essa postura deveria ter sido adotada mais cedo pela companhia.</p>
+
+  <p>Essa nova filosofia, que não se espera que se aplique a todas as operações, mas servirá como um guia, já está sendo implementada em futuros lançamentos de processadores, como os modelos <strong>Panther Lake</strong> e <strong>Nova Lake</strong>. A iniciativa está alinhada com a gestão do novo presidente executivo, <strong>Lip-Bu Tan</strong>, que assumiu em março com o objetivo principal de aumentar a lucratividade da Intel. Para alcançar essa meta, a empresa está disposta a revisar e até mesmo cancelar acordos que não se encaixem nos novos padrões de rentabilidade.</p>
+
+  <p>De acordo com dados da <strong>MacroTrends</strong>, a margem de lucro da Intel, que se mantinha em torno de 60% por uma década até a pandemia, começou a <strong>cair abaixo de 50%</strong> a partir do segundo trimestre de 2022, intensificando a necessidade de uma <strong>mudança estratégica</strong> para recuperar a rentabilidade histórica da empresa.</p>
+</article>
+
+<article class="news-article">
+  <div class="article-image">
+    <img src="https://seufelix.com.br/wp-content/uploads/2025/01/mitoseverdades.png" alt="Desvendando Mitos Comuns Sobre Eletrodomésticos e Consumo de Energia">
+  </div>
+  <h3>Desvendando Mitos Comuns Sobre Eletrodomésticos e Consumo de Energia</h3>
+  <p>Muitas informações equivocadas sobre o uso e o consumo de energia de eletrodomésticos persistem, levando a <strong>práticas ineficientes</strong>, <strong>aumento na conta de luz</strong> e até <strong>riscos à segurança</strong>. Desvendar esses mitos é crucial para um <strong>uso consciente e econômico</strong> dos aparelhos domésticos.</p>
+
+  <h4>Principais Mitos Desmistificados:</h4>
+  <ul>
+    <li><strong>Aparelhos em stand-by não consomem energia:</strong> Mito. Conhecido como "consumo fantasma", dispositivos em stand-by (como TVs e micro-ondas) continuam consumindo eletricidade. Esse gasto pode representar até <strong>20% do consumo mensal</strong> de energia de uma residência. A recomendação é <strong>desligar completamente os aparelhos da tomada</strong> ou usar réguas com interruptores.</li>
+
+    <li><strong>Equipamentos 220V consomem menos energia que os de 110V:</strong> Mito. O consumo de energia de um aparelho (medido em kWh) está diretamente ligado à sua <strong>potência</strong> e ao <strong>tempo de uso</strong>, e não à voltagem. A diferença entre 110V e 220V reside na corrente elétrica necessária; o consumo final é o mesmo. É vital, no entanto, usar a <strong>voltagem correta</strong> para evitar danos ao aparelho.</li>
+
+    <li><strong>Colocar alimentos quentes na geladeira estraga o aparelho:</strong> Mito. Colocar alimentos quentes na geladeira não causa danos diretos, mas pode <strong>aumentar o consumo de energia</strong>. O compressor precisa trabalhar mais para resfriar o calor adicional. Para otimizar a eficiência energética, é aconselhável <strong>deixar os alimentos esfriarem até a temperatura ambiente</strong> antes de guardá-los.</li>
+
+    <li><strong>Secar roupas atrás da geladeira é eficiente:</strong> Mito e prática prejudicial. Utilizar a parte traseira da geladeira para secar roupas <strong>obstrui a ventilação do condensador</strong>, fazendo com que o aparelho trabalhe mais, aumente o consumo de energia e tenha sua vida útil reduzida. Além disso, há riscos de <strong>superaquecimento e incêndio</strong>. Mantenha a parte traseira do aparelho <strong>livre de obstruções</strong>.</li>
+
+    <li><strong>Lâmpadas de LED não iluminam tão bem quanto as fluorescentes:</strong> Mito. Lâmpadas de LED são <strong>mais eficientes e duráveis</strong>. Elas consomem menos energia, têm uma vida útil significativamente maior, <strong>atingem o brilho máximo instantaneamente</strong> e não contêm mercúrio, sendo uma opção mais segura e ecológica para iluminação.</li>
+  </ul>
+
+  <p>A adoção de hábitos informados pode resultar em <strong>economia significativa</strong> na conta de luz e <strong>maior segurança no lar</strong>.</p>
+</article>
+  </section>
+
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="main-modal-title">
+    <div class="modal-content">
+      <button id="modal-close" class="modal-close" aria-label="Fechar modal de notícias">&times;</button>
+      <div id="modal-body">
+      </div>
+    </div>
+  </div>
+
+  <div id="imageModal" class="image-modal" role="dialog" aria-modal="true" aria-labelledby="image-modal-label">
+    <span id="image-modal-label" class="visually-hidden">Visualizador de Imagem Ampliada</span>
+    <button id="imageModalClose" class="image-modal-close" aria-label="Fechar imagem ampliada">&times;</button>
+    <img class="image-modal-content" id="expandedImage" alt="Imagem Ampliada">
+  </div>
+  
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuLinks = document.querySelectorAll('.menu ul li a');
+    const mainModal = document.getElementById('modal');
+    const modalBody = document.getElementById('modal-body');
+    const mainModalCloseButton = document.getElementById('modal-close');
+    const highlightsGrid = document.querySelector('.highlights-grid');
+    const newsSectionsForHighlights = document.querySelectorAll('section.news-section');
+
+    const imageModal = document.getElementById('imageModal');
+    const expandedImage = document.getElementById('expandedImage');
+    const imageModalCloseButton = document.getElementById('imageModalClose');
+
+    let previouslyFocusedElement; 
+
+    function handleTrapFocusKeydown(e) {
+        const modalElement = this; 
+        const focusableElements = Array.from(modalElement.querySelectorAll(
+            'button, [href], input:not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])'
+        )).filter(el => el.offsetParent !== null); 
+
+        if (focusableElements.length === 0) return;
+        const firstFocusableElement = focusableElements[0];
+        const lastFocusableElement = focusableElements[focusableElements.length - 1];
+
+        if (e.key !== 'Tab') return;
+
+        if (e.shiftKey) { 
+            if (document.activeElement === firstFocusableElement) {
+                lastFocusableElement.focus();
+                e.preventDefault();
+            }
+        } else { 
+            if (document.activeElement === lastFocusableElement) {
+                firstFocusableElement.focus();
+                e.preventDefault();
+            }
+        }
+    }
+    
+    function trapFocusInModal(modalElement) {
+        try {
+            const focusableElements = Array.from(modalElement.querySelectorAll(
+                'button, [href], input:not([type="hidden"]), select, textarea, [tabindex]:not([tabindex="-1"])'
+            )).filter(el => el.offsetParent !== null);
+            
+            if (focusableElements.length === 0) {
+                const closeButton = modalElement.querySelector('.modal-close, .image-modal-close');
+                if (closeButton) {
+                    closeButton.focus();
+                } else if (modalElement.hasAttribute("tabindex")) {
+                     modalElement.focus();
+                }
+                console.warn("trapFocusInModal - Nenhum elemento focável visível em:", modalElement.id);
+                return; 
+            }
+
+            const firstFocusableElement = focusableElements[0];
+            
+            modalElement.removeEventListener('keydown', handleTrapFocusKeydown); 
+            modalElement.addEventListener('keydown', handleTrapFocusKeydown);
+
+            if (firstFocusableElement && typeof firstFocusableElement.focus === 'function') {
+                firstFocusableElement.focus();
+            } else {
+                console.warn("trapFocusInModal - Primeiro elemento focável não é focável ou é indefinido.");
+            }
+        } catch (error) {
+            console.error("ERRO em trapFocusInModal:", error);
+        }
+    }
+
+    function openMainModal() {
+        try {
+            if (!mainModal) {
+                console.error("openMainModal - Elemento mainModal não encontrado!");
+                return;
+            }
+            previouslyFocusedElement = document.activeElement; 
+            mainModal.classList.add('modal-open');
+            document.body.classList.add('body-modal-open'); 
+            trapFocusInModal(mainModal); 
+        } catch (error) {
+            console.error("ERRO em openMainModal:", error);
+        }
+    }
+
+    function closeMainModal() {
+        try {
+            if (!mainModal) {
+                console.error("closeMainModal - Elemento mainModal não encontrado!");
+                return;
+            }
+            mainModal.classList.remove('modal-open');
+            document.body.classList.remove('body-modal-open');
+            modalBody.innerHTML = ""; 
+            mainModal.removeEventListener('keydown', handleTrapFocusKeydown); 
+            if (previouslyFocusedElement && typeof previouslyFocusedElement.focus === 'function') {
+                previouslyFocusedElement.focus();
+            }
+        } catch (error) {
+            console.error("ERRO em closeMainModal:", error);
+        }
+    }
+
+    if(mainModalCloseButton) mainModalCloseButton.addEventListener('click', closeMainModal);
+    if(mainModal) mainModal.addEventListener('click', function (event) {
+      if (event.target === mainModal) { 
+        closeMainModal();
+      }
+    });
+
+    function openImageZoomModal(imgSrc, imgAlt) {
+        try {
+            if (!imageModal || !expandedImage) {
+                console.error("openImageZoomModal - Elemento imageModal ou expandedImage não encontrado!");
+                return;
+            }
+            previouslyFocusedElement = document.activeElement; 
+            expandedImage.src = imgSrc;
+            expandedImage.alt = imgAlt || "Imagem Ampliada"; 
+            imageModal.classList.add('modal-open');
+            if (!document.body.classList.contains('body-modal-open')) { 
+                document.body.classList.add('body-modal-open'); 
+            }
+            trapFocusInModal(imageModal);
+        } catch (error) {
+            console.error("ERRO em openImageZoomModal:", error);
+        }
+    }
+
+    function closeImageZoomModal() {
+        try {
+            if (!imageModal || !expandedImage) {
+                console.error("closeImageZoomModal - Elemento imageModal ou expandedImage não encontrado!");
+                return;
+            }
+            imageModal.classList.remove('modal-open');
+            expandedImage.src = ""; 
+            expandedImage.alt = "Imagem Ampliada"; 
+            imageModal.removeEventListener('keydown', handleTrapFocusKeydown);
+
+            if (mainModal && !mainModal.classList.contains('modal-open')) {
+                document.body.classList.remove('body-modal-open');
+            }
+
+            if (previouslyFocusedElement && typeof previouslyFocusedElement.focus === 'function') {
+                if (document.body.contains(previouslyFocusedElement) && previouslyFocusedElement.offsetParent !== null) {
+                    previouslyFocusedElement.focus();
+                } else if (mainModal && mainModal.classList.contains('modal-open') && mainModalCloseButton) {
+                    mainModalCloseButton.focus();
+                }
+            }
+        } catch (error) {
+            console.error("ERRO em closeImageZoomModal:", error);
+        }
+    }
+
+    if(imageModalCloseButton) imageModalCloseButton.addEventListener('click', closeImageZoomModal);
+    if(imageModal) imageModal.addEventListener('click', function(event) { 
+        if (event.target === imageModal) { 
+            closeImageZoomModal();
+        }
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        if (imageModal && imageModal.classList.contains('modal-open')) {
+          closeImageZoomModal();
+        } else if (mainModal && mainModal.classList.contains('modal-open')) {
+          closeMainModal();
+        }
+      }
+    });
+
+    function openSectionInModal(targetSectionSelector) {
+        try {
+            if (!modalBody) {
+                console.error("openSectionInModal - Elemento modalBody não encontrado!");
+                return;
+            }
+            modalBody.innerHTML = ""; 
+            const targetSection = document.querySelector(targetSectionSelector);
+
+            if (targetSection) {
+                const sectionTitleElement = targetSection.querySelector('h2');
+                if (sectionTitleElement) {
+                    const modalSectionTitle = document.createElement('h2');
+                    modalSectionTitle.className = 'section-title-in-modal';
+                    modalSectionTitle.textContent = sectionTitleElement.textContent;
+                    modalSectionTitle.id = 'main-modal-title'; 
+                    modalBody.appendChild(modalSectionTitle);
+                } else {
+                    console.warn("openSectionInModal - Título da seção (h2) não encontrado em targetSection:", targetSectionSelector);
+                }
+
+                const accordionContainer = document.createElement('div');
+                accordionContainer.className = 'accordion-container';
+                const articles = targetSection.querySelectorAll('article.news-article');
+                const sectionBaseId = targetSection.id || 's' + Date.now(); 
+
+                articles.forEach(function (article, index) {
+                    const articleId = `${sectionBaseId}-article-${index}`;
+                    
+                    const headerButton = document.createElement('button');
+                    headerButton.className = "accordion-header";
+                    headerButton.setAttribute('aria-expanded', 'false');
+                    const contentId = `${articleId}-content`;
+                    headerButton.setAttribute('aria-controls', contentId);
+                    const headerId = `${articleId}-header`;
+                    headerButton.id = headerId;
+                    
+                    const titleElement = article.querySelector('h3');
+                    headerButton.textContent = titleElement ? titleElement.textContent.trim() : "Artigo " + (index + 1);
+
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = "accordion-content";
+                    contentDiv.id = contentId;
+                    contentDiv.setAttribute('role', 'region');
+                    contentDiv.setAttribute('aria-labelledby', headerId);
+                    
+                    const articleClone = article.cloneNode(true);
+                    
+                    const imagesInArticle = articleClone.querySelectorAll('.article-image img');
+                    imagesInArticle.forEach(img => {
+                        img.addEventListener('click', function(e) {
+                            e.stopPropagation(); 
+                            openImageZoomModal(this.src, this.alt);
+                        });
+                        img.setAttribute('tabindex', '0'); 
+                        img.style.cursor = 'pointer'; 
+                        img.addEventListener('keydown', function(e) {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                openImageZoomModal(this.src, this.alt);
+                            }
+                        });
+                    });
+                    
+                    contentDiv.appendChild(articleClone);
+                    contentDiv.style.display = "none"; 
+
+                    headerButton.addEventListener('click', function () {
+                        const isCurrentlyActive = this.classList.contains('active');
+                        
+                        accordionContainer.querySelectorAll('.accordion-header').forEach(h => {
+                            if (h !== this) { 
+                                h.classList.remove('active');
+                                h.setAttribute('aria-expanded', 'false');
+                                const otherContent = document.getElementById(h.getAttribute('aria-controls'));
+                                if (otherContent) otherContent.style.display = "none";
+                            }
+                        });
+
+                        if (isCurrentlyActive) {
+                            this.classList.remove('active');
+                            this.setAttribute('aria-expanded', 'false');
+                            contentDiv.style.display = "none";
+                        } else {
+                            this.classList.add('active');
+                            this.setAttribute('aria-expanded', 'true');
+                            contentDiv.style.display = "block";
+                        }
+                    });
+
+                    accordionContainer.appendChild(headerButton);
+                    accordionContainer.appendChild(contentDiv);
+                });
+
+                modalBody.appendChild(accordionContainer);
+                openMainModal(); 
+            } else {
+                console.warn("openSectionInModal - Seção não encontrada para o seletor:", targetSectionSelector);
+            }
+        } catch (error) {
+            console.error("ERRO em openSectionInModal:", error);
+        }
+    }
+
+    menuLinks.forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault(); 
+        const targetSectionSelector = this.getAttribute('data-section');
+        if (targetSectionSelector) {
+            openSectionInModal(targetSectionSelector);
+        } else {
+            console.warn("Link do menu sem atributo 'data-section' válido:", link);
+        }
+      });
+    });
+
+    if (highlightsGrid && newsSectionsForHighlights.length > 0) {
+        newsSectionsForHighlights.forEach(section => {
+            const sectionId = section.id;
+            if (!sectionId) {
+                console.warn("Seção de notícias sem ID, não pode ser usada para destaque:", section.querySelector('h2')?.textContent);
+                return; 
+            }
+            const sectionTitleH2 = section.querySelector('h2');
+            const sectionTitleText = sectionTitleH2 ? sectionTitleH2.textContent : "Seção Desconhecida";
+            const firstArticle = section.querySelector('article.news-article');
+            let firstArticleTitleText = "Clique para ver os artigos desta seção.";
+            let firstArticleImageSrc = "https://via.placeholder.com/260x150/555/eee?text=Sem+Imagem";
+            let firstArticleImageAlt = "Miniatura para " + sectionTitleText;
+
+            if (firstArticle) {
+                const h3 = firstArticle.querySelector('h3');
+                if (h3) firstArticleTitleText = h3.textContent.trim();
+                const imageElement = firstArticle.querySelector('.article-image img');
+                if (imageElement) {
+                    if (imageElement.src) firstArticleImageSrc = imageElement.src;
+                    if (imageElement.alt) firstArticleImageAlt = imageElement.alt;
+                }
+            }
+
+            const highlightItem = document.createElement('div');
+            highlightItem.className = 'highlight-item';
+            highlightItem.innerHTML = `
+              <h3>${sectionTitleText}</h3>
+              <img src="${firstArticleImageSrc}" alt="${firstArticleImageAlt}" class="highlight-thumbnail">
+              <p class="highlight-article-title">${firstArticleTitleText}</p>
+              <a href="#" data-section="#${sectionId}" class="read-more-link">Ver Seção Completa</a>`; 
+            highlightsGrid.appendChild(highlightItem);
+        });
+
+        const highlightReadMoreLinks = highlightsGrid.querySelectorAll('a.read-more-link');
+        highlightReadMoreLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetSectionSelector = this.getAttribute('data-section');
+                if (targetSectionSelector) {
+                    openSectionInModal(targetSectionSelector);
+                } else {
+                    console.warn("Link de destaque sem atributo 'data-section' válido:", link);
+                }
+            });
+        });
+    } else {
+        if (!highlightsGrid) console.warn("Elemento .highlights-grid não encontrado.");
+        if (newsSectionsForHighlights.length === 0) console.warn("Nenhuma section.news-section encontrada para destaques.");
+    }
+  });
+  </script>
+</body>
+</html>
